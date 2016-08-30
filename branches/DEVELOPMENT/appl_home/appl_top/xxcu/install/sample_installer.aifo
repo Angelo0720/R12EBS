@@ -1,0 +1,33 @@
+# Metadata installation file used by AFPO Installation Framework for Oracle DB
+# For manual installation, process the files below after connecting to the users in CONNECT-clauses
+# Make sure you have set the environment variable: ACN_SAMPLE_INSTALL_DIR to point to your code
+# You can add as many CONNECT and PROCESS rows, and combine them in any way as you wish to your fit to your installation
+# Passwords are pulled from the pom.xml file (Which again can pull it from environment variables set at runtime by Jenkins/Hudson or similar
+##########################
+CONNECT:APPS
+##########################
+# SQL Files building table structures and indexes
+##########################
+PROCESS:SAMPLE_INSTALL_DIR:sample_installation.sql
+#PROCESS:SAMPLE_INSTALL_DIR:sample_installation2.sql
+#PROCESS:SAMPLE_INSTALL_DIR:sample_installation3.sql
+#PROCESS:SAMPLE_INSTALL_DIR:sample_installation4.sql
+#PROCESS:SAMPLE_INSTALL_DIR:sample_installation5.sql
+#PROCESS:SAMPLE_INSTALL_DIR:sample_installation6.sql
+##########################
+# Package specifications
+##########################
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package.pks
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package2.pks
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package3.pks
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package4.pks
+##########################
+# Package bodies
+##########################
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package.pkb
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package2.pkb
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package3.pkb
+#PROCESS:SAMPLE_INSTALL_DIR:sample_package4.pkb
+##########################
+END
+##########################

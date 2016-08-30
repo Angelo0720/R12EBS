@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- +======================================================================+ -->
+<!-- |    Copyright (c) 2005, 2014 Oracle and/or its affiliates.           | -->
+<!-- |                         All rights reserved.                         | -->
+<!-- |                           Version 12.0.0                             | -->
+<!-- +======================================================================+ -->
+<!-- $Header: YMSTOPKL_XML.xml 120.0.12020000.3 2015/10/22 00:07:41 bhshet noship $ -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:YMSTOPKL_XML.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME ~PROD -LOB_CODE YMSTOPKL_XML -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:YMSTOPKL_XML.xml -->
+<!-- GSCC_Category="Xdo Data Definition" -->
+
+<dataTemplate name="YMSTOPKL_XML" description="YMS Pick Slip Report" version="1.0" defaultPackage="YMS_YMSTOPKL_XMLP_PKG">
+   <properties>
+      <property name="xml_tag_case" value="upper"/>
+   </properties>
+   <parameters>
+	  <parameter name="P_ORG_ID" 		dataType="number"/>
+	  <parameter name="P_DATE_REQD_HI" 	dataType="date"/>
+	  <parameter name="P_DATE_REQD_LO" 	dataType="date"/>
+	  <parameter name="P_DEST_SUBINV" 	dataType="character"/>
+	  <parameter name="P_SOURCE_SUBINV" 	dataType="character"/>
+	  <parameter name="P_DEST_LOCATOR_ID" 	dataType="number"/>
+	  <parameter name="P_SOURCE_LOCATOR_ID" dataType="number"/>
+	  <parameter name="P_MOVE_ORDER_LOW" 	dataType="character"/>
+	  <parameter name="P_MOVE_ORDER_HIGH" 	dataType="character"/>
+	  <parameter name="P_EQUIPMENT_NUMBER" 	dataType="character"/>
+	  <parameter name="P_TRAILER_SCAC" 	dataType="character"/>
+	  <parameter name="P_USER" 		dataType="character"/>
+   </parameters>
+   <dataQuery>
+   	<sqlStatement name="Q_EMV">
+   		<![CDATA[SELECT yedv.TRAILER_SCAC_CODE SCAC
+   			      , yedv.EQUIPMENT_NUMBER EQUIP_NUMBER
+			      , yedv.REQUEST_NUMBER REQ_NUMBER
+			      , yedv.INVENTORY_ITEM_ID ITEM_ID
+			      , yedv.CURRENT_SUBINVENTORY_CODE FROM_SUBINV
+			      , yedv.CURRENT_LOCATOR_ALIAS FROM_LOCATOR
+			      , yedv.TRANSFER_SUBINVENTORY TO_SUBINV
+			      , yedv.TRANSFER_LOCATOR_ALIAS TO_LOCATOR
+			      , yedv.USER_NAME USER_NAME
+  			 FROM yms_equipment_details_v yedv
+                            , MTL_TXN_REQUEST_LINES MTRL
+                        WHERE yedv.HEADER_ID = MTRL.HEADER_ID
+                          AND MTRL.ORGANIZATION_ID = :P_ORG_ID
+			  and &P_WHERE]]>
+      	</sqlStatement>
+   </dataQuery>
+      <dataTrigger name="afterParameterFormTrigger" source="YMS_YMSTOPKL_XMLP_PKG.afterpform"/>
+      <dataTrigger name="beforeReportTrigger" source="YMS_YMSTOPKL_XMLP_PKG.beforereport"/>
+   <dataStructure>
+      <element name="P_CONC_REQUEST_ID" dataType="number" value="YMS_YMSTOPKL_XMLP_PKG.P_CONC_REQUEST_ID"/>
+      <element name="P_DEST_LOCATOR" dataType="varchar2" value="YMS_YMSTOPKL_XMLP_PKG.P_DEST_LOCATOR"/>
+      <element name="P_SOURCE_LOCATOR" dataType="varchar2" value="YMS_YMSTOPKL_XMLP_PKG.P_SOURCE_LOCATOR"/>
+      <element name="P_WHERE" dataType="varchar2" value="YMS_YMSTOPKL_XMLP_PKG.P_WHERE"/>
+      <element name="P_ORG_NAME" dataType="varchar2" value="YMS_YMSTOPKL_XMLP_PKG.P_ORG_NAME"/>
+      <element name="CP_DATE_REQD_LO" dataType="varchar2" value="YMS_YMSTOPKL_XMLP_PKG.CP_DATE_REQD_LO"/>	
+      <element name="CP_DATE_REQD_HI" dataType="varchar2" value="YMS_YMSTOPKL_XMLP_PKG.CP_DATE_REQD_HI"/>	
+      <group name="G_EQP_MOVE_GROUP" source="Q_EMV">
+         <element name="SCAC" 		dataType="varchar2" value="SCAC"/>
+         <element name="EQUIP_NUMBER" 	dataType="varchar2" value="EQUIP_NUMBER"/>
+         <element name="REQ_NUMBER" 	dataType="varchar2" value="REQ_NUMBER"/>
+         <element name="ITEM_ID" 	dataType="number"   value="ITEM_ID"/>
+         <element name="FROM_SUBINV" 	dataType="varchar2" value="FROM_SUBINV"/>
+         <element name="FROM_LOCATOR" 	dataType="varchar2" value="FROM_LOCATOR"/>
+	 <element name="TO_SUBINV" 	dataType="varchar2" value="TO_SUBINV"/>
+	 <element name="TO_LOCATOR" 	dataType="varchar2" value="TO_LOCATOR"/>
+	 <element name="USER_NAME" 	dataType="varchar2" value="USER_NAME"/>
+      </group>
+   </dataStructure>
+   <dataTrigger name="afterReportTrigger" source="YMS_YMSTOPKL_XMLP_PKG.afterreport()"/>
+</dataTemplate>
+# ~RICEW_APPLICATION~EAASDEMO~
+# ~RICEW_EXTRACTED~DEMO002~
+# ~RICEW_COMPONENT_TYPE~XXCU_XDO~
+# ~RICEW_CMDLINE~xdo_load_data_templ "YMS" "YMSTOPKL_XML" "" ""~
+# ~RICEW_PRE_INSTALL_COMMAND~set_xdo_languages en_US~

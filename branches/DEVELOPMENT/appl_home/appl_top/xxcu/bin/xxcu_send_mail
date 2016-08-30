@@ -1,0 +1,105 @@
+#!/bin/bash
+#########################################################
+# Author: Bjørn Erik Hoel, Accenture                    #
+# Date:   28.Feb.2014                                   #
+# Name:   xxcu_send_mail.sh                             #
+# Modified:                                             #
+# Daniel Rodil: modified for FND_NEW_MESSAGES           #
+#########################################################
+REPLYTO="DontReply@nowhere.nowhere"
+
+. $XXCU_TOP/bin/xxcu_logutil.sh
+. $XXCU_TOP/bin/xxcu_scriptutil.sh
+
+# FORCE LOGGING TO STDERR TO MAKE IT VISIBLE IN CONC LOG
+export LOG_UTIL_USE_STDERR="Y"
+
+function print_usage
+{
+	error "Not enough parameters"
+	echo "$0 <New Filename> <Source Filename> <Commaseparated e-mail TO Recipients> <Subject> <Body> <Commaseparated e-mail CC Recipients>"
+	echo "Example: $0 'Report.xls' '$PROFILES$.OUTFILENAME' 'bjorn-erik.hoel@accenture.com' 'Periodic Report' 'This will be in the mail body' 'daniel.f.o.rodil@accenture.com'"
+}
+
+#####################################################
+echo "Argument count: $#"
+
+if [ "$FCP_LOGIN" != "" ]; then
+        info "Concurrent Request Mode, request id: $FCP_REQID"
+		# Need to parse commandline since EBS submits all parameters as a single string
+        APPS_LOGIN=$FCP_LOGIN
+        NEW_FILENAME=$(echo $* | cut -d'"' -f 8)
+        SOURCENAME=$(echo $* | cut -d'"' -f 10)
+        EMAIL_TO=$(echo $* | cut -d'"' -f 12)
+        EMAIL_SUBJECT=$(echo $* | cut -d'"' -f 14)
+        EMAIL_BODY_IN="$(echo $* | cut -d'"' -f 16)"
+        EMAIL_CC=$(echo $* | cut -d'"' -f 18)
+		EMAIL_FROM="$(echo $* | cut -d'"' -f 20)"
+		# This is a very crude way of doing it, and may break if datatype of parameter list is changed
+elif [ $# -lt 7 ]; then
+        print_usage
+        exit -1
+else
+        NEW_FILENAME="$1"
+        SOURCENAME="$2"
+        EMAIL_TO="$3"
+        EMAIL_SUBJECT="$4"
+        EMAIL_BODY_IN="$5"
+        EMAIL_CC="$6"
+        EMAIL_FROM="$7"
+fi
+
+if [ $(echo "$EMAIL_BODY_IN" | cut -c1-16) = "FND_NEW_MESSAGES" ]; then 
+	EMAIL_MESSAGE_NAME=$(echo "$EMAIL_BODY_IN" | cut -c18-)
+	#17th character/string is the colon ":"
+	
+	EMAIL_BODY=$(echo "select a.message_text
+						from fnd_new_messages a
+						where message_name = '$EMAIL_MESSAGE_NAME' ;
+					" | sqlCommandPipe $APPS_LOGIN)
+
+	if [ "$EMAIL_MESSAGE_NAME" = "XXVRTX_APEXT001_EMAIL_BODY" ]; then
+		EMAIL_BODY="$EMAIL_BODY""
+$EMAIL_FROM"
+	fi
+
+else
+	EMAIL_BODY="$EMAIL_BODY_IN"
+fi
+
+SOURCENAME=$(eval echo ${SOURCENAME})
+
+debug "Checking if $SOURCENAME exists"
+if [ "$SOURCENAME" == "NONE" ]; then
+	
+	debug "Checking if $EMAIL_CC exists"
+	if [ "$EMAIL_CC" == "NONE" ]; then
+		debug "Sending email using mutt without attachment"
+		echo "$EMAIL_BODY" | mutt -s "$EMAIL_SUBJECT" "$EMAIL_TO"
+	else
+		debug "Sending email using mutt without attachment with CC"
+		echo "$EMAIL_BODY" | mutt -s "$EMAIL_SUBJECT" -c "$EMAIL_CC" "$EMAIL_TO"
+	fi
+
+	exit 0
+elif [ -f "$SOURCENAME" ]; then
+	debug "Copying $SOURCENAME to /tmp/$NEW_FILENAME"
+	cp -f "$SOURCENAME" "/tmp/$NEW_FILENAME"
+
+	debug "Checking if $EMAIL_CC exists"
+	if [ "$EMAIL_CC" == "NONE" ]; then
+		debug "Sending email using mutt with Attachment"
+		echo "$EMAIL_BODY" | mutt -s "$EMAIL_SUBJECT" -a "/tmp/$NEW_FILENAME" "$EMAIL_TO"
+	else
+		debug "Sending email using mutt with Attachment with CC"
+		echo "$EMAIL_BODY" | mutt -s "$EMAIL_SUBJECT" -a "/tmp/$NEW_FILENAME" -c "$EMAIL_CC" "$EMAIL_TO"	
+	fi	
+
+	debug "Cleaning up"
+	rm -f "/tmp/$NEW_FILENAME"
+
+	exit 0
+else
+	error "Not able to open file: $SOURCENAME"
+	exit 1
+fi

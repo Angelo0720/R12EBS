@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>XXCU_INSTALLATION</groupId>
+	<artifactId>XXCU_INSTALLATION</artifactId>
+	<name>XXCU_INSTALLATION</name>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.1.0.7.0</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+			<groupId>com.accenture.maven.plugin</groupId>
+			<artifactId>oracle-installation-framework</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<configuration>
+				<installationFile>${env.TARGET_AIFO_FILE}</installationFile>			
+				<databaseName>TARGET</databaseName>			
+				<userProperties>
+					<!-- This environmentvariable must be set for the framework to function. Contact the architect team for keys -->
+					<property><name>application.license.key</name><value>${env.ACN_ORA_INSTALLER_LICENSE_KEY}</value></property>
+					<!-- This environmentvariable must be set for the framework to function. Contact the architect team for keys -->
+					<property><name>application.registered.to</name><value>${env.ACN_ORA_INSTALLER_REGISTERED_TO}</value></property>
+					<!-- LogLevel='DEBUG' requires you to run mvn with -X flag -->
+					<property><name>application.loglevel</name><value>DEBUG</value></property>
+					<property><name>application.database.driver</name><value>oracle.jdbc.OracleDriver</value></property>
+					<property><name>application.database.url.TARGET</name><value>${env.TARGET_JDBC_URL}</value></property>
+					<!-- Directory path definitions go here. Any number can be defined, and then referenced in .aifo file -->
+					<property><name>directory.path.TARGET.XXCU_INSTALL_DIR</name><value>../admin/sql</value></property>
+					<!-- SAMPLE_SYSTEM_PASSWORD will allow you to use CONNECT:SYSTEM in .aifo file -->
+					<property><name>application.database.user.password.TARGET.SYSTEM</name><value>${env.TARGET_SYSTEM_PASSWORD}</value></property>
+					<!-- SAMPLE_APPS_PASSWORD will allow you to use CONNECT:APPS in .aifo file -->
+					<property><name>application.database.user.password.TARGET.APPS</name><value>${env.TARGET_APPS_PASSWORD}</value></property>
+					<!-- Add more password blocks to this file as needed -->
+				</userProperties>
+			</configuration>
+			</plugin>			
+		</plugins>
+	</build>
+ </project>

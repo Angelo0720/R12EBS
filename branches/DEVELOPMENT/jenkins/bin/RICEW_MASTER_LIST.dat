@@ -1,0 +1,407 @@
+# RICEW~TYPE~SVN_PATH~INSTALL_COMMAND~PRE_COMMAND(OPTIONAL)
+# Convert content to DB format (Force into specific erp_app_id):
+# RICEW table:
+# cat RICEW_MASTER_LIST.dat.unix | cut -d~ -f1 | grep -v ^# | sort -u | grep -v "DEMO00" | xargs -Irepl echo "insert into ricew select nextval('hibernate_sequence'),0, true, 479,'repl',482;"
+# RICEW Component:
+# Excel replace string: 
+# =CONCATENATE("insert into ricewcomponent select nextval('hibernate_sequence'), 0, (select id from ricewcomponent_type where type_name = '",B2,"'), true, '",C2,"', '",D2,"','mass import','",E2,"',(select id from ricew where ricew_name ='",A2,"'), currval('hibernate_sequence')*100")
+#####################################################
+# BEGIN: FND - LOOKUP - SECTION 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\LOOKUP_XXCU_APCNV001_ADDR_ABBR_LKP_US.ldt~fnd_load_lookups "FND" "XXCU_APCNV001_ADDR_ABBR_LKP" "Address Abbreviation" "Dani"
+AESG_EXT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_EXTERNAL_SYSTEM_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_EXTERNAL_SYSTEM" "External Systems Lookup" "AESG"
+AESG_EXT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_RICEW_CLASSES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_RICEW_CLASSES" "AESG RICEW Classes" "AESG"
+AESG_EXT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_RICEW_OBJECT_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_RICEW_OBJECT_TYPES" "RICEW Object Types" "AESG"
+AESG_EXT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_RICEW_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_RICEW_TYPES" "AESG RICEW Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_PROCESSING_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_PROCESSING_TYPES" "AESG Processing Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_CONNECTION_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_CONNECTION_TYPES" "AESG Connection Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_CONVERSION_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_CONVERSION_TYPES" "AESG Conversion Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_DATA_SOURCE_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_DATA_SOURCE_TYPES" "AESG Data Source Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_DATAFILE_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_DATAFILE_TYPES" "AESG Data File Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_ERROR_TOLR_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_ERROR_TOLR_TYPES" "AESG Error Tolerance Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_EXPRESSION_OPERATOR_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_EXPRESSION_OPERATOR" "AESG Expression Operators" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_TRANSLATION_LEVEL_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_TRANSLATION_LEVEL" "AESG Translation Levels" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_TRANSLATION_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_TRANSLATION_TYPES" "AESG Translation Types" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_VALIDATION_LEVEL_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_VALIDATION_LEVEL" "AESG Validation Levels" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_VALIDATION_TYPES_LKP_US.ldt~fnd_load_lookups "FND" "XXAC_FND_VALIDATION_TYPES" "AESG Validation Types" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\LOOKUP_XXAC_FND_EXTERNAL_SYSTEM_LT_US.ldt~fnd_load_lookups "XXAESG" "XXAC_FND_EXTERNAL_SYSTEM" "External Systems Lookup" "AESG"
+#####################################################
+# END: FND - LOOKUP - SECTION DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - VALUESET - SECTION 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_XXCU_GMD_15_3_floating_number_US.ldt~fnd_load_value_set "XXCU_GMD_15_3_floating_number" "" "Bill Stearns"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_1_US.ldt~fnd_load_value_set "VS_DEMO_1" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_2_US.ldt~fnd_load_value_set "VS_DEMO_2" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_3_US.ldt~fnd_load_value_set "VS_DEMO_3" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_4_US.ldt~fnd_load_value_set "VS_DEMO_4" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_5_US.ldt~fnd_load_value_set "VS_DEMO_5" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_6_US.ldt~fnd_load_value_set "VS_DEMO_6" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_7_US.ldt~fnd_load_value_set "VS_DEMO_7" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_8_US.ldt~fnd_load_value_set "VS_DEMO_8" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_9_US.ldt~fnd_load_value_set "VS_DEMO_9" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\VALUESET_VS_DEMO_10_US.ldt~fnd_load_value_set "VS_DEMO_10" "Demo" "Vikas"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_CNV_EXEC_RICEW_ID_VS_US.ldt~fnd_load_value_set "XXAC_FND_CNV_EXEC_RICEW_ID" "" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_CNV_EXECUTION_ID_VS_US.ldt~fnd_load_value_set "XXAC_FND_CNV_EXECUTION_ID" "" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_DATA_FILE_PATH_VS_US.ldt~fnd_load_value_set "XXAC_FND_DATA_FILE_PATH" "" "AESGs"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_DEBUG_LEVEL_VS_US.ldt~fnd_load_value_set "XXAC_FND_DEBUG_LEVEL" "" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_DUMMY_VS_US.ldt~fnd_load_value_set "XXAC_FND_DUMMY" "" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_EXTERNAL_SYSTEM_VS_US.ldt~fnd_load_value_set "XXAC_FND_EXTERNAL_SYSTEM" "" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_ITI_EXEC_RICEW_ID_VS_US.ldt~fnd_load_value_set "XXAC_FND_ITI_EXEC_RICEW_ID" "" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_ITI_EXECUTION_ID_VS_US.ldt~fnd_load_value_set "XXAC_FND_ITI_EXECUTION_ID" "" "AESGs"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_PROC_MODE_VS_US.ldt~fnd_load_value_set "XXAC_FND_PROC_MODE" "" "AESG"
+AESG_RPT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_ERROR_TYPE_VS_US.ldt~fnd_load_value_set "XXAC_FND_ERROR_TYPE" "" "AESG"
+AESG_RPT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_CMPNT_HEADER_VS_US.ldt~fnd_load_value_set "XXAC_FND_CMPNT_HEADER" "" "AESG"
+AESG_RPT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_DEBUG_REPORT_VS_US.ldt~fnd_load_value_set "XXAC_FND_DEBUG_REPORT" "" "AESG"
+AESG_EXT_004~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_ARCH_PURGE_RICEWID_US.ldt~fnd_load_value_set "XXAC_FND_ARCH_PURGE_RICEWID" "" "AESG"
+AESG_EXT_007~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\VALUESET_XXAC_FND_PURG_ARCHIVE_ACTION_US.ldt~fnd_load_value_set "XXAC_FND_PURG_ARCHIVE_ACTION" "" "AESG"
+#####################################################
+# END: FND - VALUESET - DO NOT EDIT THIS LINE
+#####################################################
+# BEGIN: FND - DESC FLEX - DO NOT EDIT THIS LINE 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\DESCFLEX_GMD_GMD_SAMPLES_FLEX_Global_Data_Elements_US.ldt~fnd_load_desc_flexfield "GMD" "GMD_SAMPLES_FLEX" "Global_Data_Elements" "Bill Stearns"
+#####################################################
+# END: FND - DESC FLEX - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - FORM FUNC - DO NOT EDIT THIS LINE
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\FORMFUNCTION_XXCU_POEXT004_PO_CLOSURE_FN_US.ldt~fnd_load_form_function "XXCU_POEXT004_PO_CLOSURE_FN" "PO_EXT_004 - PO Close" "Doni G"
+AESG_EXT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\FORMFUNCTION_XXAC_FND_RICEW_SEARCH_FN_US.ldt~fnd_load_form_function "XXAC_FND_RICEW_SEARCH" "AESG RICEW Search" "AESG"
+AESG_EXT_002~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\FORMFUNCTION_XXAC_FND_CMPNT_SEARCH_FN_US.ldt~fnd_load_form_function "XXAC_FND_CMPNT_SEARCH" "AESG Interface/Conversion Search" "AESG"
+#####################################################
+# END: FND - FORM FUNC - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - MESSAGE - DO NOT EDIT THIS LINE 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\MESSAGE_XXCU_XXCU_FARPT004_EMAIL_BODY_US.ldt~fnd_load_messages "XXCU" "XXCU_FARPT004_EMAIL_BODY" "FARPT004 Email Body" "Mike Genio/Claudelle Diaz"
+#####################################################
+# END: FND - MESSAGE - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - MENUS - DO NOT EDIT THIS LINE 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\MENU_XXCU_POEXT004_PO_CLOSURE_MN_US.ldt~fnd_load_menus "XXCU_POEXT004_PO_CLOSURE_MN" "PO_EXT_004 - PO Close" "Doni G"
+#####################################################
+# END: FND - MENUS - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - RESPONSIBILITY - DO NOT EDIT THIS LINE
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_XXCU_DEV_RESP_KEY_US.ldt~fnd_load_responsibility "XXCU_DEV_RESP_KEY" "XXCU Custom Responsibility" "Dani"
+#DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_XXCU_AFPO_SYS_ADMIN_US.ldt~fnd_load_responsibility "XXCU_AFPO_SYS_ADMIN" "AFPO System Administrator" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_1_US.ldt~fnd_load_responsibility "RESP_DEMO_1" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_2_US.ldt~fnd_load_responsibility "RESP_DEMO_2" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_3_US.ldt~fnd_load_responsibility "RESP_DEMO_3" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_4_US.ldt~fnd_load_responsibility "RESP_DEMO_4" "Demo" "Vikas"
+DEMO001~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_5_US.ldt~fnd_load_responsibility "RESP_DEMO_5" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_6_US.ldt~fnd_load_responsibility "RESP_DEMO_6" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_7_US.ldt~fnd_load_responsibility "RESP_DEMO_7" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_8_US.ldt~fnd_load_responsibility "RESP_DEMO_8" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_9_US.ldt~fnd_load_responsibility "RESP_DEMO_9" "Demo" "Vikas"
+DEMO002~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\RESP_RESP_DEMO_10_US.ldt~fnd_load_responsibility "RESP_DEMO_10" "Demo" "Vikas"
+#####################################################
+# END: FND - RESPONSIBILITY - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - FORM PERSONALIZATION - SECTION
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\FRMPER_INV_INVIDITM_US.ldt~fnd_load_forms_pers "INV_INVIDITM" "Desc" "For Tara"
+#####################################################
+# END: FND - FORM PERSONALIZATION - DO NOT EDIT THIS LINE
+#####################################################
+# BEGIN: FND - PROFILE OPTION - SECTION
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\PROFOPT_XXCU_CONVERSION_DATE_US.ldt~fnd_load_profile_option "XXCU_CONVERSION_DATE" "Example Data Conversion Date" "Asif"
+#XXAESG_MY_MODULE~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\PROFOPT_XXAESG_MY_PROFILE_OPTION_US.ldt~fnd_load_profile_option "XXAESG_MY_PROFILE_OPTION" "Example for AAESG team" "Bjorn"
+AESG_EXT_004~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\PROFOPT_XXAC_CONFIG_FILE_PATH_US.ldt~fnd_load_profile_option "XXAC_CONFIG_FILE_PATH" "iSetup Configuration File Path" "AESG"
+#####################################################
+# END: FND - PROFILE OPTION - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - PRINTER - SECTION 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\PRNT_XXCU_POEXT009_1042S_EF_CP_US.ldt~fnd_load_printer "XXCU_POEXT009_1042S_EF_CP" "Printer for XXCU_POEXT009_1042S_EF_CP" "rigid"
+#####################################################
+# END: FND - PRINTER - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - CONCURRENT PROGRAM - SECTION
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\CP_XXCU_SEND_MAIL_US.ldt~fnd_load_conc_program "XXCU" "XXCU_SEND_MAIL" "Custom Program to send file with new filename as email attachment" "Dani"
+AESG_EXT_003~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_GEN_ERR_REP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_GEN_ERR_REP" "Program for general error reporting" "Mahesh"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_CNV_WRP_CP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_CNV_EXEC_WRP" "Accenture Batch Program for Conversions" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_CNV_EXEC_CP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_GEN_CNV_EXEC" "Accenture Execution Program for Conversions" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_ITI_WRP_CP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_ITI_EXEC_WRP" "Accenture Batch Program for Conversions" "AESG"
+AESG_EXT_006~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_ITI_EXEC_CP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_GEN_ITI_EXEC" "Accenture Execution Program for Interfaces" "AESG"
+AESG_RPT_001~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_EXEC_RPT_CP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_GEN_ERR_REP" "Generic Execution Report" "AESG"
+AESG_EXT_004~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_CONFIG_SETUP_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_CONFIG_SETUP" "AESG iSetup Program" "AESG"
+AESG_EXT_007~FND~\appl_home\appl_top\xxaesg\admin\config\FNDLOAD\CP_XXAC_FND_PURG_ARCHIVE_US.ldt~fnd_load_conc_program "XXAESG" "XXAC_FND_PURG_ARCHIVE" "AESG Foundation Interface/Conversion Archive Program" "AESG"
+#####################################################
+# END: FND - CONCURRENT PROGRAM - DO NOT EDIT THIS LINE
+#####################################################
+# BEGIN: FND - REQUEST SET - SECTION 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\REQSETS_XXCU_POEXT009_1099_US.ldt~fnd_load_request_sets "XXCU" "XXCU_POEXT009_1099" "XXCU Load and Generate Electronic Media" "rigid"
+#####################################################
+# END: FND - REQUEST SET - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - REQUEST GROOUP - SECTION
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\REQGROUP_XXCU_Conversion_Programs_US.ldt~fnd_load_request_group "XXCU Conversion Programs" "Request Group for Conversions" "Bing"
+#####################################################
+# END: FND - REQUEST GROOUP - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - ALERT - SECTION 
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\ALERT_Example_Annex_Item_Receipt_US.ldt~fnd_load_alert "PO" "Example Annex Item Receipt" "Desc" "Tara"
+#####################################################
+# END: FND - ALERT - DO NOT EDIT THIS LINE 
+#####################################################
+# BEGIN: FND - AUDIT GROUP - SECTION
+#####################################################
+#FNDCMN01~FND~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\AUDGRP_Audit_Setup_Group_US.ldt~fnd_load_audit_group "FND" "Audit Setup Group" "Audit Setup Group" "For Tara"
+#####################################################
+# END: FND - AUDIT GROUP - DO NOT EDIT THIS LINE 
+#####################################################
+# DB / SQL / TRG - SECTION
+#####################################################
+#SAMPLE001~DB~\appl_home\appl_top\xxcu\admin\sql\sample_installation.sql~PROCESS:SAMPLE_INSTALL_DIR:sample_installation.sql~CONNECT:APPS
+#AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CREATE_DIRECTORIES.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CREATE_DIRECTORIES.sql~CONNECT:SYS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_RICEW_MASTER_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_RICEW_MASTER_TBL.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_RICEW_MASTER_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_RICEW_MASTER_SEQ.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_COMP_MASTER_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_COMP_MASTER_TBL.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_COMP_MASTER_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_COMP_MASTER_SEQ.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_COMP_MAP_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_COMP_MAP_TBL.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_COMP_MAP_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_COMP_MAP_SEQ.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_RICEW_ASSIGN_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_RICEW_ASSIGN_TBL.sql~CONNECT:APPS
+AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_RICEW_ASSIGN_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_RICEW_ASSIGN_SEQ.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_HEADER_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_HEADER_TBL.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_HEADER_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_HEADER_SEQ.sql~CONNECT:APPS
+#AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_DETAIL_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_DETAIL_TBL.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_DETAIL_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_DETAIL_SEQ.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_TRANS_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_TRANS_TBL.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_TRANS_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_TRANS_SEQ.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_COL_MAP_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_COL_MAP_TBL.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CMPNT_COL_MAP_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CMPNT_COL_MAP_SEQ.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERR_REP_HEAD_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERR_REP_HEAD_TBL.sql~CONNECT:APPS
+AESG_EXT_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERR_REP_HEAD_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERR_REP_HEAD_SEQ.sql~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PROG_EXEC_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PROG_EXEC_TBL.sql~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PROG_EXEC_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PROG_EXEC_SEQ.sql~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PROG_EXEC_ARC_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PROG_EXEC_ARC_TBL.sql~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_DIR_FLIST_GTT.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_DIR_FLIST_GTT.sql~CONNECT:APPS
+#AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXACDirList.sql~PROCESS:XXAESG_INSTALL_DIR:XXACDirList.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERROR_LOG_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERROR_LOG_TBL.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERROR_LOG_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERROR_LOG_SEQ.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_DEBUG_LOG_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_DEBUG_LOG_TBL.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_DEBUG_LOG_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_DEBUG_LOG_SEQ.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERROR_LOG_ARC_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERROR_LOG_ARC_TBL.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_DEBUG_LOG_ARC_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_DEBUG_LOG_ARC_TBL.sql~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERR_SUMMARY_SEC_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERR_SUMMARY_SEC_TBL.sql~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INVOICES_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INVOICES_INTF_STG.sql~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INVOICES_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INVOICES_INTF_SEQ.sql~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INVOICES_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INVOICES_INTF_ARC.sql~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_LINES_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_LINES_INTF_STG.sql~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_LINES_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_LINES_INTF_SEQ.sql~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_LINES_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_LINES_INTF_ARC.sql~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_RCV_HEADERS_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_RCV_HEADERS_INTF_STG.sql~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_RCV_HEADERS_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_RCV_HEADERS_INTF_ARC.sql~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_RCV_HEADERS_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_RCV_HEADERS_INTF_SEQ.sql~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_RCV_TRANSACTIONS_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_RCV_TRANSACTIONS_INTF_STG.sql~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_RCV_TRANSACTIONS_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_RCV_TRANSACTIONS_INTF_ARC.sql~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_RCV_TRANSACTIONS_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_RCV_TRANSACTIONS_INTF_SEQ.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_HEADERS_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_HEADERS_INTF_STG.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_HEADERS_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_HEADERS_INTF_ARC.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_HEADERS_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_HEADERS_INTF_SEQ.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_LINES_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_LINES_INTF_STG.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_LINES_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_LINES_INTF_ARC.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_LINES_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_LINES_INTF_SEQ.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_DISTRIBUTIONS_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_DISTRIBUTIONS_INTF_STG.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_DISTRIBUTIONS_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_DISTRIBUTIONS_INTF_ARC.sql~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_DISTRIBUTIONS_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_DISTRIBUTIONS_INTF_SEQ.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQUISITIONS_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQUISITIONS_TBL.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQUISITIONS_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQUISITIONS_ARC.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQUISITIONS_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQUISITIONS_SEQ.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQ_DIST_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQ_DIST_TBL.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQ_DIST_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQ_DIST_ARC.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQ_DIST_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQ_DIST_SEQ.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQUISITIONS_INTF_IDX.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQUISITIONS_INTF_IDX.sql~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQ_DIST_INTF_IDX.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQ_DIST_INTF_IDX.sql~CONNECT:APPS
+INV_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_MTL_DESC_ELEMVAL_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_MTL_DESC_ELEMVAL_INTF_STG.sql~CONNECT:APPS
+INV_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_MTL_DESC_ELEMVAL_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_MTL_DESC_ELEMVAL_INTF_ARC.sql~CONNECT:APPS
+INV_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_MTL_DESC_ELEMVAL_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_MTL_DESC_ELEMVAL_INTF_SEQ.sql~CONNECT:APPS
+INV_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_MTL_SYSTEM_ITEMS_INTF_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_MTL_SYSTEM_ITEMS_INTF_STG.sql~CONNECT:APPS
+INV_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_MTL_SYSTEM_ITEMS_INTF_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_MTL_SYSTEM_ITEMS_INTF_ARC.sql~CONNECT:APPS
+INV_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_MTL_SYSTEM_ITEMS_INTF_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_MTL_SYSTEM_ITEMS_INTF_SEQ.sql~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_MASS_ADDITIONS_TBL.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_MASS_ADDITIONS_TBL.sql~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_MASS_ADDITIONS_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_MASS_ADDITIONS_ARC.sql~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_MASS_ADDITIONS_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_MASS_ADDITIONS_SEQ.sql~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_MASS_ADD_IDX.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_MASS_ADD_IDX.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIERS_INT_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIERS_INT_STG.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITES_INT_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITES_INT_STG.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITE_CON_INT_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITE_CON_INT_STG.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIERS_INT_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIERS_INT_ARC.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIER_SITES_INT_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIER_SITES_INT_ARC.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITE_CONT_INT_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITE_CONT_INT_ARC.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIERS_INT_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIERS_INT_SEQ.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITES_INT_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITES_INT_SEQ.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SITE_CONT_INT_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SITE_CONT_INT_SEQ.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIERS_INT_ARC_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIERS_INT_ARC_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIER_SITES_INT_ARC_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIER_SITES_INT_ARC_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITE_CONT_INT_ARC_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITE_CONT_INT_ARC_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIERS_INT_SEQ_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIERS_INT_SEQ_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITES_INT_SEQ_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITES_INT_SEQ_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUPPLIERS_INT_STG_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUPPLIERS_INT_STG_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITES_INT_STG_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITES_INT_STG_SYN.sql~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_SITE_CON_INT_STG_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_SITE_CON_INT_STG_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_STG.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_BRANCH_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_BRANCH_STG.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ACC_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ACC_STG.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ARC.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_BRANCH_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_BRANCH_ARC.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ACC_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ACC_ARC.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_SEQ.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_BRANCH_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_BRANCH_SEQ.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ACC_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ACC_SEQ.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_STG_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_STG_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_BRANCH_STG_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_BRANCH_STG_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ACC_STG_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ACC_STG_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_SEQ_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_SEQ_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_BRANCH_SEQ_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_BRANCH_SEQ_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ACC_SEQ_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ACC_SEQ_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ARC_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ARC_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_BRANCH_ARC_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_BRANCH_ARC_SYN.sql~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_IBY_EXT_BANK_ACC_ARC_SYN.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_IBY_EXT_BANK_ACC_ARC_SYN.sql~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_COA_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_COA_STG.sql~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_COA_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_COA_ARC.sql~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_COA_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_COA_SEQ.sql~CONNECT:APPS
+GL_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_INTERFACE_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_INTERFACE_STG.sql~CONNECT:APPS
+GL_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_INTERFACE_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_INTERFACE_ARC.sql~CONNECT:APPS
+GL_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_INTERFACE_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_INTERFACE_SEQ.sql~CONNECT:APPS
+GL_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BUDGET_INT_STG.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BUDGET_INT_STG.sql~CONNECT:APPS
+GL_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BUDGET_INT_ARC.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BUDGET_INT_ARC.sql~CONNECT:APPS
+GL_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BUDGET_INT_SEQ.sql~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BUDGET_INT_SEQ.sql~CONNECT:APPS
+#####################################################
+# DB / PKS - DO NOT EDIT THIS LINE 
+#####################################################
+#SAMPLE001~DB~\appl_home\appl_top\xxcu\admin\sql\sample_installation.pks~PROCESS:SAMPLE_INSTALL_DIR:sample_installation.pks~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PROG_EXEC_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PROG_EXEC_PKG.pks~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_FILE_HANDLER_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_FILE_HANDLER_PKG.pks~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERROR_LOG_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERROR_LOG_PKG.pks~CONNECT:APPS
+AESG_EXT_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CONFIG_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CONFIG_PKG.pks~CONNECT:APPS
+AESG_EXT_007~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PURG_ARCH_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PURG_ARCH_PKG.pks~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_UTILITY_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_UTILITY_PKG.pks~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_RECEIPT_CNV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_RECEIPT_CNV_PKG.pks~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_OPEN_CNV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_OPEN_CNV_PKG.pks~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQUISITION_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQUISITION_CONV_PKG.pks~CONNECT:APPS
+INV_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_INV_CATALOGUE_CNV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_INV_CATALOGUE_CNV_PKG.pks~CONNECT:APPS
+INV_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_INV_ITEM_CNV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_INV_ITEM_CNV_PKG.pks~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_FIXED_ASSETS_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_FIXED_ASSETS_CONV_PKG.pks~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_UTILITY_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_UTILITY_PKG.pks~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_CONV_PKG.pks~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_BANK_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_BANK_CONV_PKG.pks~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_UTILITY_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_UTILITY_PKG.pks~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_COA_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_COA_CONV_PKG.pks~CONNECT:APPS
+GL_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BAL_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BAL_CONV_PKG.pks~CONNECT:APPS
+GL_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_JE_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_JE_CONV_PKG.pks~CONNECT:APPS
+GL_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BUD_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BUD_CONV_PKG.pks~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_CONV_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_CONV_PKG.pks~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_CONV_EXT_PKG.pks~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_CONV_EXT_PKG.pks~CONNECT:APPS
+#####################################################
+# DB / PKB - DO NOT EDIT THIS LINE 
+#####################################################
+#AESG_EXT_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_UTILITY_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_UTILITY_PKG.pkb~CONNECT:APPS
+#SAMPLE001~DB~\appl_home\appl_top\xxcu\admin\sql\sample_installation.pkb~PROCESS:SAMPLE_INSTALL_DIR:sample_installation.pkb~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PROG_EXEC_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PROG_EXEC_PKG.pkb~CONNECT:APPS
+AESG_EXT_006~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_FILE_HANDLER_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_FILE_HANDLER_PKG.pkb~CONNECT:APPS
+AESG_EXT_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_ERROR_LOG_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_ERROR_LOG_PKG.pkb~CONNECT:APPS
+AESG_EXT_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_CONFIG_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_CONFIG_PKG.pkb~CONNECT:APPS
+AESG_EXT_007~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FND_PURG_ARCH_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FND_PURG_ARCH_PKG.pkb~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_UTILITY_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_UTILITY_PKG.pkb~CONNECT:APPS
+PO_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_RECEIPT_CNV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_RECEIPT_CNV_PKG.pkb~CONNECT:APPS
+PO_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_OPEN_CNV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_OPEN_CNV_PKG.pkb~CONNECT:APPS
+PO_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_PO_REQUISITION_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_PO_REQUISITION_CONV_PKG.pkb~CONNECT:APPS
+INV_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_INV_CATALOGUE_CNV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_INV_CATALOGUE_CNV_PKG.pkb~CONNECT:APPS
+INV_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_INV_ITEM_CNV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_INV_ITEM_CNV_PKG.pkb~CONNECT:APPS
+FA_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_FA_FIXED_ASSETS_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_FA_FIXED_ASSETS_CONV_PKG.pkb~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_UTILITY_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_UTILITY_PKG.pkb~CONNECT:APPS
+AP_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_CONV_PKG.pkb~CONNECT:APPS
+AP_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_SUP_BANK_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_SUP_BANK_CONV_PKG.pkb~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_UTILITY_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_UTILITY_PKG.pkb~CONNECT:APPS
+GL_CNV_001~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_COA_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_COA_CONV_PKG.pkb~CONNECT:APPS
+GL_CNV_002~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BAL_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BAL_CONV_PKG.pkb~CONNECT:APPS
+GL_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_JE_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_JE_CONV_PKG.pkb~CONNECT:APPS
+GL_CNV_004~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_GL_BUD_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_GL_BUD_CONV_PKG.pkb~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_CONV_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_CONV_PKG.pkb~CONNECT:APPS
+AP_CNV_003~DB~\appl_home\appl_top\xxaesg\admin\sql\XXAC_AP_INV_CONV_EXT_PKG.pkb~PROCESS:XXAESG_INSTALL_DIR:XXAC_AP_INV_CONV_EXT_PKG.pkb~CONNECT:APPS
+#####################################################
+# APPS/ODI GRANTS - DO NOT EDIT THIS LINE
+#####################################################
+#SAMPLE001~DB~\appl_home\appl_top\xxcu\admin\sql\sample_installation.sql~PROCESS:SAMPLE_INSTALL_DIR:sample_installation.sql~CONNECT:APPS
+#########################################################
+# SQL With Dependency on Grants - DO NOT EDIT THIS LINE #
+#########################################################
+#SAMPLE001~DB~\appl_home\appl_top\xxcu\admin\sql\sample_installation.sql~PROCESS:SAMPLE_INSTALL_DIR:sample_installation.sql~CONNECT:APPS
+#####################################################
+# BEGIN: XDO - SECTION 
+#####################################################
+#CSTRPT018~XDO~\appl_home\appl_top\xxcu\admin\config\FNDLOAD\XDO_XXCU_GMFVDSR_US.ldt~fnd_load_xdosetup "XXCU" "XXCU_GMFVDSR" "XML Publisher XDO report for XXCU_GMFVDSR" "Eezah"~set_xdo_languages "en_US"
+AESG_RPT_001~XDO~\appl_home\appl_top\xxaesg\admin\config\XDOLOAD\XDO_XXAC_FND_GEN_EXEC_RPT_DD_US.ldt~fnd_load_xdosetup "XXAESG" "XXAC_FND_GEN_ERR_REP" "Generic Execution Report" "AESG"~set_xdo_languages "en_US"
+AESG_RPT_001~XDO~\appl_home\appl_top\xxaesg\admin\config\XDOLOAD\XDO_XXAC_FND_GEN_ERR_REP_DD_US.xml~xdo_load_data_templ "XXAESG" "XXAC_FND_GEN_ERR_REP" "Generic Execution Report" "AESG"~set_xdo_languages "en_US"
+AESG_RPT_001~XDO~\appl_home\appl_top\xxaesg\admin\config\XDOLOAD\XDO_XXAC_FND_GEN_ERR_REP_TMP_US.rtf~xdo_load_rtf_templ "XXAESG" "XXAC_FND_GEN_ERR_REP" "Generic Execution Report" "AESG"~set_xdo_languages "en_US"
+#####################################################
+# END: XDO - DO NOT EDIT THIS LINE 
+#####################################################
+# CUSTOM TOP FILES - DO NOT EDIT THIS LINE 
+#####################################################
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_send_mail
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_sqlload_file
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_afcpprog.lct
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_fndfold.lct
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\XXCU_QPXPATMD.lct
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_akutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_apply_patch.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_extract_dynamic_fnddata.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_extract_dynamic_xdodata.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_find_file_version.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_fndutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_generate_interface.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_installutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_logutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_mdsutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_monitor_services.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_oafutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_restart_apache.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_scriptutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxcu_xdoutil.sh
+XXCU0002~CUSTOM_TOP~\appl_home\appl_top\xxcu\bin\xxio_top_folder_structure_creation.sh
+#####################################################
+# WORKFLOWS - DO NOT EDIT THIS LINE 
+#####################################################
+#EDRWFL001~WORKFLOW~\appl_home\appl_top\xxcu\admin\config\WFLOAD\XXCU_EDRPSIGF.wft~processWorkflow "XXCU_EDRPSIGF.wft"~set_wf_upload_mode "FORCE"
+#####################################################
+# OAF - DO NOT EDIT THIS LINE
+#####################################################
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUDisplayPoVO.xml~oaf_copybc4jxml "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUDisplayPoVO.xml" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseAM.xml~oaf_copybc4jxml "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseAM.xml" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseEO.xml~oaf_copybc4jxml "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseEO.xml" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseVO.xml~oaf_copybc4jxml "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseVO.xml" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUDisplayPoVOImpl.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUDisplayPoVOImpl.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseAMImpl.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseAMImpl.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseEOCollImpl.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseEOCollImpl.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseEOImpl.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseEOImpl.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseVOImpl.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseVOImpl.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\server\XXCUPoCloseVORowImpl.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/server/XXCUPoCloseVORowImpl.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\webui\XXCUPoCloseCO.java~oaf_compilejava "xxcu/oracle/apps/icx/por/reqmgmt/webui/XXCUPoCloseCO.java" "PO_EXT_004 -PO Close" "For Doni G."
+#POEXT004~OAF~\appl_home\appl_top\jdev\myprojects\xxcu\oracle\apps\icx\por\reqmgmt\webui\XXCUPoClosePG.xml~mds_load_pers "XXCU" "xxcu/oracle/apps/icx/por/reqmgmt/webui/XXCUPoClosePG.xml" "PO_EXT_004 -PO Close" "For Doni G."
+#####################################################
+# FORM - DO NOT EDIT THIS LINE 
+#####################################################
+#STR001~FORM~\appl_home\appl_top\xxcu\resource\FCOA.pll~processLibrary "../resource/FCOA.pll"~set_forms_language "US"
+#FORMCMN01~FORM~\appl_home\appl_top\xxcu\resource\CUSTOM_KOFAX.pll~processLibrary "../resource/CUSTOM_KOFAX.pll"~set_forms_language "US"
+#FORMCMN01~FORM~\appl_home\appl_top\xxcu\resource\CUSTOM.pll~processLibrary "../resource/CUSTOM.pll"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOAAYOD.fmb~processForm "../forms/US/FCOAAYOD.fmb"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOASAID.fmb~processForm "../forms/US/FCOASAID.fmb"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOASBMT.fmb~processForm "../forms/US/FCOASBMT.fmb"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOASTAT.fmb~processForm "../forms/US/FCOASTAT.fmb"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOATEST.fmb~processForm "../forms/US/FCOATEST.fmb"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOAWOPT.fmb~processForm "../forms/US/FCOAWOPT.fmb"~set_forms_language "US"
+#STR001~FORM~\appl_home\appl_top\xxcu\forms\US\FCOAXCFG.fmb~processForm "../forms/US/FCOAXCFG.fmb"~set_forms_language "US"
+#####################################################
+# END
+#####################################################

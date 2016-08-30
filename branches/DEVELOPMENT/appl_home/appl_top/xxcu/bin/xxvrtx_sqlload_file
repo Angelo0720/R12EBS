@@ -1,0 +1,163 @@
+#!/bin/bash
+##########################################
+# Author: Bjorn Erik Hoel, Accenture     #
+# Date:   25.Jan.2012                    #
+# Name:   xxvrtx_sqlload_file.sh         #
+##########################################
+
+. $XXCU_TOP/bin/xxcu_logutil.sh
+. $XXCU_TOP/bin/xxcu_scriptutil.sh
+
+# Configurable section
+# Change between DEBUG|INFO|WARN|ERROR
+LOG_LEVEL=INFO
+# Do not change MAX_ROWS globally, as it is required for some interfaces to work properly.
+MAX_ROWS=${MAX_ROWS:-1}
+BINDSIZE=${BINDSIZE:-2000000}
+
+##########################################
+function help_usage
+{
+    echo "Usage: $(basename $0) <Context> <ControlFile> <SubDir> <Filemask> <READY|CLOSED>"
+}
+
+##########################################
+function load_status
+{
+        if [ $# -ne 1 ]; then
+                error "Usage: load_status <READY|INIT_FAILED|CLOSED>"
+                return -1
+        fi
+LOAD_STATUS=$1
+
+OUTPUT=$(echo "
+set serverout on
+BEGIN
+        XXVRTX_UTIL_PKG.FILE_STATUS('$CONTEXT_NAME','$FILE_ID','$LOAD_STATUS');
+        COMMIT;
+END;
+/
+" | sqlCommandPipe $APPS_LOGIN)
+RETVAL=$?
+
+        if [ $RETVAL -ne 0 ]; then
+                error "load_status failed for FILE_ID=$FILE_ID ($LOAD_STATUS)"
+                error "$OUTPUT"
+                exit -1
+        else
+                info "File Status set to $LOAD_STATUS"
+        fi
+
+}
+#########################################
+function allocate_file
+{
+
+OUTPUT=$(echo "
+set serverout on
+DECLARE
+l_file_id NUMBER;
+BEGIN
+        l_file_id := XXVRTX_UTIL_PKG.ALLOCATE_FILE('$CONTEXT_NAME','$FILE_NAME', '$BASE_FILE_NAME', '$CONTROL_FILE');
+        COMMIT;
+        DBMS_OUTPUT.PUT_LINE(l_file_id);
+END;
+/
+" | sqlCommandPipe $APPS_LOGIN)
+RETVAL=$?
+
+        if [ $RETVAL -ne 0 ]; then
+                error "load_status failed for FILE_ID=$FILE_ID ($LOAD_STATUS)"
+                error "$OUTPUT"
+                exit -1
+        else
+                info "Allocated - FILE_ID=$OUTPUT"
+                export FILE_ID=$OUTPUT
+        fi
+
+}
+
+########################################
+
+########################################
+
+echo "Argcount: $#"
+if [ "$FCP_LOGIN" != "" ]; then
+        info "Concurrent Request Mode, request id: $FCP_REQID"
+		# Need to parse commandline since EBS submits all parameters as a single string
+        APPS_LOGIN=$FCP_LOGIN
+        CONTEXT_NAME=$(echo $* | cut -d'"' -f 8)
+        CONTROL_FILE=$(echo $* | cut -d'"' -f 10)
+        TARGET_DIR=$(echo $* | cut -d'"' -f 12)
+        FILEMASK=$(echo $* | cut -d'"' -f 14)
+        POST_LOAD_STATUS=$(echo $* | cut -d'"' -f 16)
+		# This is a very crude way of doing it, and may break if datatype of parameter list is changed
+
+elif [ $# -ne 5 ]; then
+        help_usage
+        exit -1
+else
+        CONTEXT_NAME=$1
+        CONTROL_FILE=$2
+        TARGET_DIR=$3
+        FILEMASK=$4
+        POST_LOAD_STATUS=$5
+        do_login APPS
+fi
+
+echo "################ Parameters ##################
+Context: 			$CONTEXT_NAME
+Control file: 		$CONTROL_FILE
+Target Directory (Under $XXIO_TOP/inbound/): $TARGET_DIR
+Filemask: $FILEMASK
+Post Load Status: 	$POST_LOAD_STATUS
+##############################################"
+
+export CONTROL_FILE=$(eval echo $CONTROL_FILE)
+
+find "$XXIO_TOP/inbound/$TARGET_DIR" -type f -name "$FILEMASK"  | \
+while read FILE_NAME
+do
+        info "Processing: $FILE_NAME"
+		UNDERSCORE_FILENAME="$(echo $FILE_NAME | sed 's/ /_/g')"
+		if [ "$UNDERSCORE_FILENAME" != "$FILE_NAME" ]; then
+			warning "Renaming file containing whitespaces to $UNDERSCORE_FILENAME"
+			mv "$FILE_NAME" "$UNDERSCORE_FILENAME"
+			FILE_NAME="$UNDERSCORE_FILENAME"
+		fi
+		BASE_FILE_NAME=$(basename "$FILE_NAME")
+        allocate_file "$CONTEXT_NAME" "$FILE_NAME" "$BASE_FILE_NAME" "${CONTROL_FILE}"
+		debug "Converting $FILE_NAME to UNIX format"
+		dos2unix "$FILE_NAME" > /dev/null
+
+		# Here we dynamically add constants for the load, ie. FILE_ID
+		# More similar functionality can be added by adding more tokens like this and fetching their values 
+		# via SQL*Plus or other mechanisms.
+        cat $CONTROL_FILE | sed "s/-FILE_ID_TOKEN-/$FILE_ID/g" > $CONTROL_FILE.$$.1
+        cat $CONTROL_FILE.$$.1 | sed "s/-FILE_NAME_TOKEN-/$BASE_FILE_NAME/g" > $CONTROL_FILE.$$
+		rm $CONTROL_FILE.$$.1
+
+		# Invoke SQL*Loader with all the information
+		debug "sqlldr userid=$APPS_LOGIN data='$FILE_NAME' rows=${MAX_ROWS} log='$CONTROL_FILE.$$.log' control='$CONTROL_FILE.$$' errors=0 discardmax=0"
+        sqlldr userid=$APPS_LOGIN data="$FILE_NAME" rows=${MAX_ROWS} bindsize=${BINDSIZE} log="$CONTROL_FILE.$$.log" control="$CONTROL_FILE.$$" errors=0 discardmax=0
+        RETVAL=$?
+        if [ $RETVAL -ne 0 ]; then
+				# If it fails, it will retry the same file the next time it is invoked.
+				# One might want to alter this section a bit based on preference
+                error "SQL*Loader failed"
+                load_status "INIT_FAILED"
+                cat $CONTROL_FILE.$$.log
+                rm $CONTROL_FILE.$$.log
+                rm $CONTROL_FILE.$$
+				exit 1
+
+        else
+                info "SQL*Loader completed successfully, archiving."
+                load_status "$POST_LOAD_STATUS"
+                rm $CONTROL_FILE.$$.log
+                rm $CONTROL_FILE.$$
+                mkdir -p $XXIO_TOP/archive/$TARGET_DIR/
+                mv $FILE_NAME $XXIO_TOP/archive/$TARGET_DIR/
+        fi
+
+done

@@ -1,0 +1,344 @@
+#!/bin/bash
+# Push folder script for mirroring a folder structure with files
+#
+# Author: Stian Indal Haugseth, Accenture
+# Created date: 2011-11-16
+#
+# This script will mirror a selective folder structure. If any files
+# has changed, been added or deleted the target will mirror this. This
+# scripts relies on private/public key authentication through SSH. This has
+# to be set up before running script and allows for passwordless connectivity.
+#
+# WARNING:
+# If you switch the source and targets you might delete all or change your original
+# files. Remember to make a backup of the files to distribute before the first run.
+#
+# Changelog:
+#
+#
+
+# on any returned errors exit
+set -o errexit
+
+LOG_TO_SYSLOG=${LOG_TO_SYSLOG:-"N"}
+PROGNAME=${0##*/}
+PROGVERSION=0.1
+
+function info
+{
+  logutil_log_file=${LOG_FILE:-/dev/null}
+  echo "$(date +"%Y%m%d %H:%M:%S") [$PROGNAME][INFO] $*" | tee -a $logutil_log_file
+}
+
+function warning
+{
+  logutil_log_file=${LOG_FILE:-/dev/null}
+  # Logging to logfile, standard err and SYSLOG whenever errors occur
+  LOG_LINE="$(date +"%Y%m%d %H:%M:%S") [$PROGNAME][WARNING] $*"
+  echo "$LOG_LINE" >> $logutil_log_file
+
+  if [ ! $TERM ] || [ "$TERM" = "dumb" ]; then
+    echo "$LOG_LINE" >&2
+    if [ "$LOG_TO_SYSLOG" = "Y" ]; then
+      logger -t $PROGNAME -p warn "$*"
+    fi
+  else
+    if [ $(basename $SHELL) = "bash" ] || [ $(basename $SHELL) = "ksh" ]; then
+      printf '\033[1;33;40m%s\033[0m\n' "$LOG_LINE" >&2
+    else
+      echo "$LOG_LINE" >&2
+    fi
+  fi
+}
+
+function error
+{
+  logutil_log_file=${LOG_FILE:-/dev/null}
+  # Logging to logfile, standard err and SYSLOG whenever errors occur
+  LOG_LINE="$(date +"%Y%m%d %H:%M:%S") [$PROGNAME][ERROR] $*"
+  echo "$LOG_LINE" >> $logutil_log_file
+
+  if [ ! $TERM ] || [ "$TERM" = "dumb" ]; then
+    echo "$LOG_LINE" >&2
+    if [ "$LOG_TO_SYSLOG" = "Y" ]; then
+      logger -t $PROGNAME -p err "$*"
+    fi
+  else
+    if [ $(basename $SHELL) = "bash" ] || [ $(basename $SHELL) = "ksh" ]; then
+      printf '\033[1;31;40m%s\033[0m\n' "$LOG_LINE" >&2
+    else
+      echo "$LOG_LINE" >&2
+    fi
+  fi
+}
+
+function debug
+{
+  logutil_log_file=${LOG_FILE:-/dev/null}
+  if [ "$LOG_LEVEL" = "DEBUG" ]; then
+      echo "$(date +"%Y%m%d %H:%M:%S") [$PROGNAME][DEBUG] $*" | tee -a $logutil_log_file
+  fi
+
+}
+
+echo "##############################################################################"
+echo "# $PROGNAME Started"
+echo "##############################################################################"
+
+
+
+usage()
+{
+echo "Usage: $PROGNAME [options]
+
+Options:
+
+ -h
+--help
+  Gives this helping text.
+
+-v
+--version
+  Gives script version.
+
+--target <user@host>
+  Is the username and host/IP address the files will be distributed to.
+  Remember the target host already has to be set up with the correct public
+  key.
+  Alternative: Use environment variable PF_TARGET
+
+--src-root-uri <absolute path on source server>
+  Absolute root path on source.
+  Alternative: Use environment variable PF_SRC_ROOT_URI
+
+--trg-root-uri <absolute path on target server>
+  Absolute root path on target.
+  Alternative: Use environment variable PF_TRG_ROOT_URI
+
+--dist-dir-list <directories:separated:by:colon>
+  List of directoried with relative path based on the source/target root URIs.
+  Multiple directories can be separated by colon.
+  If omitted all directories in source root URI will be mirrored.
+  Alternative: Use environment variable PF_DIST_DIR_LIST
+
+--exclude <pattern>
+  Used to filter using rsync syntax
+
+--apps-password <password>
+  Password for the OEBS APPS user.
+  Alternative: Use environment variable PF_APPS_PASSWORD
+
+--exec-remote <command>
+  Used to execute a remote command on target.
+
+Usage example
+   pushFolders \\
+      --target <user@host> \\
+      --src-root-uri \"/u01/svn/OEBS/branches/DEVELOPMENT\" \\
+      --trg-root-uri \"/u01/oebs/destination/folder\" \\
+      --dist-dir-list \"some_folder:appl_home\common_top:appl_home\appl_top\xxcu\admin\sql\" \\
+	   --exclude .svn \\
+      --apps-password password
+"
+}
+
+# If any remaining arguments remain, exit 1
+if [ $# -eq 0 ] ; then
+   usage
+   exit 1
+fi
+
+
+# Short parameters list for getopt
+# Not in use in this script
+SHORTOPTS="vh"
+
+# Long/named parameters list for getopt
+LONGOPTS="help,target:,src-root-uri:,trg-root-uri:,dist-dir-list:,exclude:,apps-password:,exec-remote:"
+
+# getopt is uses for long named parameters
+ARGS=$(getopt -s bash -o $SHORTOPTS --long $LONGOPTS --name $PROGNAME -- "$@" )
+
+eval set -- "$ARGS"
+
+debug "Environment variable: PF_TARGET='$PF_TARGET'"
+debug "Environment variable: PF_SRC_ROOT_URI='$PF_SRC_ROOT_URI'"
+debug "Environment variable: PF_TRG_ROOT_URI='$PF_TRG_ROOT_URI'"
+debug "Environment variable: PF_DIST_DIR_LIST='$PF_DIST_DIR_LIST'"
+debug "Environment variable: PF_APPS_PASSWORD='"`echo $PF_APPS_PASSWORD|wc -w`"'"
+
+# Test for parameters and set argument
+while true; do
+   case $1 in
+      -v|--version)
+         echo "$PROGVERSION"
+         exit 0
+         ;;
+      -h|--help)
+         usage
+         exit 0
+         ;;
+      --target)
+         shift
+         PF_TARGET="$1"
+         debug "Command line argument --target '$PF_TARGET' assigned to variable PF_TARGET"
+         ;;
+      --src-root-uri)
+         shift
+         PF_SRC_ROOT_URI="$1"
+         debug "Command line argument --src-root-uri '$PF_SRC_ROOT_URI' assigned to variable PF_SRC_ROOT_URI"
+         ;;
+      --trg-root-uri)
+         shift
+         PF_TRG_ROOT_URI="$1"
+         debug "Command line argument --trg-root-uri '$PF_TRG_ROOT_URI' assigned to variable PF_TRG_ROOT_URI"
+         ;;
+      --dist-dir-list)
+         shift
+         PF_DIST_DIR_LIST="$1"
+         debug "Command line argument --dist-dir-list '$PF_DIST_DIR_LIST' assigned to variable PF_DIST_DIR_LIST"
+         ;;
+      --exclude)
+         shift
+         EXCLUDE_PATTERN="$1"
+         debug "Command line argument --exclude '$EXCLUDE_PATTERN' assigned to variable EXCLUDE_PATTERN"
+         ;;
+      --apps-password)
+         shift
+         PF_APPS_PASSWORD="$1"
+         debug "Command line argument --apps-password '<password hidden>' assigned to variable PF_APPS_PASSWORD"
+         ;;
+      --exec-remote)
+         shift
+         EXEC_REMOTE="$1"
+         debug "Command line argument --exec-remote '<command hidden>' assigned to variable PF_TARGET"
+         ;;
+      --)
+         shift
+         break
+         ;;
+      *)
+         shift
+         error "$PROGNAME: unknown argument '$1'"
+       exit 1
+         ;;
+   esac
+   shift
+done
+
+# If any remaining arguments remain, exit 1
+if [ "$*" ] ; then
+   error "$PROGNAME: remaining unknown argument '$*'"
+   exit 1
+fi
+
+# Check all mandatory arguments.
+MISSING_ARGUMENT=false
+if [ -z $PF_TARGET ] ; then
+   error "$PROGNAME: variable PF_TARGET not set, please set environment variable or add argument to script"
+   MISSING_ARGUMENT=true
+fi
+if [ -z $PF_SRC_ROOT_URI ] ; then
+   error "$PROGNAME: variable PF_SRC_ROOT_URI not set, please set environment variable or add argument to script"
+   MISSING_ARGUMENT=true
+fi
+if [ -z $PF_TRG_ROOT_URI ] ; then
+   error "$PROGNAME: variable PF_TRG_ROOT_URI not set, please set environment variable or add argument to script"
+   MISSING_ARGUMENT=true
+fi
+if $MISSING_ARGUMENT ; then
+   error "$PROGNAME: one or more arguments are missing"
+   exit 1
+fi
+
+# Remove any trailing slashes from source and target root URI
+PF_SRC_ROOT_URI=`echo $PF_SRC_ROOT_URI | sed 's/\/*$//'`
+debug "Strip PF_SRC_ROOT_URI to '$PF_SRC_ROOT_URI'"
+PF_TRG_ROOT_URI=`echo $PF_TRG_ROOT_URI | sed 's/\/*$//'`
+debug "Strip PF_TRG_ROOT_URI to '$PF_TRG_ROOT_URI'"
+
+# Process directory list to verify the direcories.
+IS_NOT_DIR=false;
+IFS=$':' # Change array separator to :
+echo "##############################################################################"
+echo "# Checking source directories"
+echo "#"
+# Loop colon separated directories from input argument.
+for i in $PF_DIST_DIR_LIST ; do
+
+   debug "Verify directories, for loop, for loop, item='$i'"
+
+   # Remove any trailing slashes from new source directory
+   CURRENT_SRC_DIR=`echo $PF_SRC_ROOT_URI/$i | sed 's/\/*$//'`
+   debug "Verify directories, for loop, CURRENT_SRC_DIR='$CURRENT_SRC_DIR'"
+
+   # Check if item is directory. If not print error message and set IS_NOT_DIR flag.
+   if [ ! -d "$CURRENT_SRC_DIR" ]; then
+      error "'$CURRENT_SRC_DIR' is not a directory"
+      IS_NOT_DIR=true
+   else
+      info "'$CURRENT_SRC_DIR' is a directory"
+      RELATIVE_SRC_DIRS=""
+   fi
+
+done
+unset IFS # Reset to default array separator
+
+if $IS_NOT_DIR ; then
+   error "$PROGNAME: one or more sources are not directories"
+   exit 1
+fi
+
+echo "#"
+echo "##############################################################################"
+
+
+
+# Process directory list to execute RSYNC
+IFS=$':' # Change array separator to :
+# Loop colon separated directories from input argument.
+
+WORKING_DIR="$(pwd)"
+debug "Working Directory: $WORKING_DIR"
+
+for i in $PF_DIST_DIR_LIST ; do
+
+   debug "Process directories, for loop, for loop, item='$i'"
+
+   # Remove any trailing slashes from new source and target directory
+   CURRENT_SRC_DIR=`echo $i | sed 's/\/*$//'`
+   debug "Process directories, for loop, CURRENT_SRC_DIR='$CURRENT_SRC_DIR'"
+
+   info "##############################################################################"
+   info "# Pushing '$PF_SRC_ROOT_URI/$CURRENT_SRC_DIR'"
+   info "#     --> '$PF_TARGET:$PF_TRG_ROOT_URI/$CURRENT_SRC_DIR'"
+   info "#"
+
+   debug "Current folder: '`pwd`'"
+   cd "$PF_SRC_ROOT_URI"
+   debug "Changed folder to: '`pwd`'"
+   info "Executing RSYNC"
+   debug "rsync -EvvczrltDR --no-p \"$CURRENT_SRC_DIR\" \"$PF_TARGET:$PF_TRG_ROOT_URI\" --exclude=$EXCLUDE_PATTERN"
+   rsync -EvvczrltDR --no-p "$CURRENT_SRC_DIR" "$PF_TARGET:$PF_TRG_ROOT_URI" --exclude=$EXCLUDE_PATTERN
+   info "#"
+   info "##############################################################################"
+
+   cd "${WORKING_DIR}"
+done
+unset IFS # Reset to default array separator
+
+# Execute remote commands
+if [ ! -z "$EXEC_REMOTE" ] ; then
+   info "##############################################################################"
+   info "# Execute SSH remote command. "
+   info "#"
+   ssh $PF_TARGET "$EXEC_REMOTE"
+   info "#"
+   info "##############################################################################"
+fi
+
+info "##############################################################################"
+info "# $PROGNAME Finished"
+info "##############################################################################"
+
+exit 0

@@ -1,0 +1,479 @@
+# $Header: QPXPATMD.lct 120.0 2005/06/02 00:20:32 appldev noship $
+#
+#
+# QPXPATMD.lct - Pricing Attribute Mapping Loader Configurator (Distribution portion)
+#
+# Entities
+#       QP_PRC_CONTEXTS
+#               QP_SEGMENTS
+#                       QP_ATTRIBUTE_SOURCING
+#                       QP_PTE_SEGMENTS
+#
+#
+# Conversion:
+# DATE -> VARCHAR2(11)
+# NUMBER -> VARCHAR2(50)
+#
+# History:
+# 02-18-02      hwong   - created
+# 03-22-02      hwong   - modified valueset_id to use flex_value_set_name
+#
+# ====================================================================
+
+COMMENT = "dbdrv: exec fnd bin FNDLOAD bin &phase=daa+57 checkfile:~PROD:~PATH:~FILE &ui_apps 0 Y UPLOAD @QP:patch/115/import/QPXPATMD.lct @~PROD:~PATH/~FILE"
+
+
+# ------------------------- Define section -------------------------
+
+DEFINE QP_PRC_CONTEXTS
+        KEY             PRC_CONTEXT_CODE                        VARCHAR2(30)
+        KEY             PRC_CONTEXT_TYPE                        VARCHAR2(30)
+        BASE    SEEDED_FLAG                                     VARCHAR2(1)
+        BASE    ENABLED_FLAG                            VARCHAR2(1)
+        BASE    APPLICATION_ID                          VARCHAR2(50)            # NUMBER
+        TRANS   SEEDED_PRC_CONTEXT_NAME         VARCHAR2(240)
+        TRANS   SEEDED_DESCRIPTION                      VARCHAR2(2000)
+        CTX             OWNER                                           VARCHAR2(7)
+        CTX     LAST_UPDATE_DATE                VARCHAR2(11)
+
+        DEFINE QP_SEGMENTS
+                KEY             SEGMENT_CODE                            VARCHAR2(30)
+                BASE    AVAILABILITY_IN_BASIC           VARCHAR2(1)
+                BASE    APPLICATION_ID                          VARCHAR2(50)    # NUMBER
+                BASE    SEGMENT_MAPPING_COLUMN          VARCHAR2(30)
+                BASE    SEEDED_FLAG                                     VARCHAR2(1)
+                BASE    SEEDED_PRECEDENCE               VARCHAR2(50)    # NUMBER
+                BASE    FLEX_VALUE_SET_NAME                     VARCHAR2(60)
+                BASE    SEEDED_FORMAT_TYPE                      VARCHAR2(1)
+                TRANS   SEEDED_SEGMENT_NAME                     VARCHAR2(80)
+                TRANS   SEEDED_DESCRIPTION                      VARCHAR2(2000)
+                BASE    REQUIRED_FLAG                           VARCHAR2(1)
+                CTX             OWNER                                           VARCHAR2(7)
+                CTX     LAST_UPDATE_DATE                VARCHAR2(11)
+
+                DEFINE QP_ATTRIBUTE_SOURCING
+                        KEY             REQUEST_TYPE_CODE                       VARCHAR2(30)
+                        KEY             ATTRIBUTE_SOURCING_LEVEL        VARCHAR2(30)
+                        BASE    APPLICATION_ID                          VARCHAR2(50)
+                        BASE    SEEDED_SOURCING_TYPE            VARCHAR2(30)
+                        BASE    SEEDED_VALUE_STRING             VARCHAR2(2000)
+                        BASE    SEEDED_FLAG                     VARCHAR2(1)
+                        BASE    ENABLED_FLAG                            VARCHAR2(1)
+                        CTX             OWNER                                           VARCHAR2(7)
+                        CTX     LAST_UPDATE_DATE                VARCHAR2(11)
+                END QP_ATTRIBUTE_SOURCING
+
+                DEFINE QP_PTE_SEGMENTS
+                        KEY     PTE_CODE                                        VARCHAR2(30)
+                        BASE    SEGMENT_LEVEL                           VARCHAR2(10)
+                        BASE    SOURCING_ENABLED                        VARCHAR2(1)
+                        BASE    SEEDED_SOURCING_METHOD          VARCHAR2(30)
+                        BASE    SOURCING_STATUS                         VARCHAR2(1)
+                        BASE    LOV_ENABLED                                     VARCHAR2(1)
+                        BASE    LIMITS_ENABLED                          VARCHAR2(1)
+                        BASE    APPLICATION_ID                          VARCHAR2(50)    # NUMBER
+                        CTX             OWNER                                           VARCHAR2(7)
+                        CTX     LAST_UPDATE_DATE                VARCHAR2(11)
+                END QP_PTE_SEGMENTS
+
+        END QP_SEGMENTS
+
+END QP_PRC_CONTEXTS
+
+
+
+
+# ------------------------- Download section -------------------------
+
+DOWNLOAD QP_PRC_CONTEXTS
+"select
+        B.PRC_CONTEXT_CODE,
+        B.PRC_CONTEXT_TYPE,
+        B.SEEDED_FLAG,
+        B.ENABLED_FLAG,
+        to_char(:APPLICATION_ID),
+        NVL(T.SEEDED_PRC_CONTEXT_NAME,USER_PRC_CONTEXT_NAME) AS SEEDED_PRC_CONTEXT_NAME,
+        NVL(T.SEEDED_DESCRIPTION,USER_DESCRIPTION) AS SEEDED_DESCRIPTION,
+        decode(B.LAST_UPDATED_BY, 0, 'ORACLE', 1, 'ORACLE', 2, 'ORACLE', 'CUSTOM') OWNER,
+        to_char(B.LAST_UPDATE_DATE,'YYYY/MM/DD')
+        from QP_PRC_CONTEXTS_B B,
+        QP_PRC_CONTEXTS_TL T
+        where (:PRC_CONTEXT_CODE is null or (:PRC_CONTEXT_CODE is not null and B.PRC_CONTEXT_CODE like :PRC_CONTEXT_CODE))
+        and (:PRC_CONTEXT_TYPE is null or (:PRC_CONTEXT_TYPE is not null and B.PRC_CONTEXT_TYPE like :PRC_CONTEXT_TYPE))
+        and T.PRC_CONTEXT_ID = B.PRC_CONTEXT_ID"
+
+DOWNLOAD QP_SEGMENTS
+"
+select
+        B.SEGMENT_CODE,
+        B.AVAILABILITY_IN_BASIC,
+        to_char(B.APPLICATION_ID),
+        B.SEGMENT_MAPPING_COLUMN,
+        B.SEEDED_FLAG,
+        to_char(NVL(B.SEEDED_PRECEDENCE,USER_PRECEDENCE)) AS SEEDED_PRECEDENCE,
+        decode(NVL(B.SEEDED_VALUESET_ID, B.USER_VALUESET_ID),null,'', F.FLEX_VALUE_SET_NAME) FLEX_VALUE_SET_NAME,
+        NVL(B.SEEDED_FORMAT_TYPE,USER_FORMAT_TYPE) AS SEEDED_FORMAT_TYPE,
+        NVL(T.SEEDED_SEGMENT_NAME,USER_SEGMENT_NAME) AS SEEDED_SEGMENT_NAME,
+        NVL(T.SEEDED_DESCRIPTION,USER_DESCRIPTION) AS SEEDED_DESCRIPTION,
+        B.REQUIRED_FLAG,
+        decode(B.LAST_UPDATED_BY, 0, 'ORACLE', 1, 'ORACLE', 2, 'ORACLE', 'CUSTOM') OWNER ,
+        to_char(B.LAST_UPDATE_DATE,'YYYY/MM/DD')
+        from QP_SEGMENTS_B B,
+        QP_SEGMENTS_TL T,
+        QP_PRC_CONTEXTS_B C,
+        FND_FLEX_VALUE_SETS F
+        where (:SEGMENT_CODE is null or (:SEGMENT_CODE is not null and B.SEGMENT_CODE like :SEGMENT_CODE))
+        and C.PRC_CONTEXT_CODE = :PRC_CONTEXT_CODE
+        and C.PRC_CONTEXT_TYPE = :PRC_CONTEXT_TYPE
+        and T.SEGMENT_ID = B.SEGMENT_ID
+        and B.PRC_CONTEXT_ID = C.PRC_CONTEXT_ID
+        and NVL(B.SEEDED_VALUESET_ID, B.USER_VALUESET_ID) = F.FLEX_VALUE_SET_ID(+)"
+
+DOWNLOAD QP_ATTRIBUTE_SOURCING
+"select
+        A.REQUEST_TYPE_CODE,
+        A.ATTRIBUTE_SOURCING_LEVEL,
+        A.APPLICATION_ID,
+        NVL(A.SEEDED_SOURCING_TYPE,USER_SOURCING_TYPE) AS SEEDED_SOURCING_TYPE,
+        NVL(A.SEEDED_VALUE_STRING,USER_VALUE_STRING) AS SEEDED_VALUE_STRING,
+        A.SEEDED_FLAG,
+        A.ENABLED_FLAG,
+        decode(A.LAST_UPDATED_BY, 0, 'ORACLE' ,1, 'ORACLE', 2, 'ORACLE', 'CUSTOM') OWNER,
+        to_char(A.LAST_UPDATE_DATE,'YYYY/MM/DD')
+        from QP_ATTRIBUTE_SOURCING A,
+        QP_SEGMENTS_B S,
+        QP_PRC_CONTEXTS_B C
+        where (:REQUEST_TYPE_CODE is null or (:REQUEST_TYPE_CODE is not null and A.REQUEST_TYPE_CODE like :REQUEST_TYPE_CODE))
+        and (:ATTRIBUTE_SOURCING_LEVEL is null or (:ATTRIBUTE_SOURCING_LEVEL is not null and A.ATTRIBUTE_SOURCING_LEVEL like :ATTRIBUTE_SOURCING_LEVEL))
+        and S.SEGMENT_CODE = :SEGMENT_CODE
+        and C.PRC_CONTEXT_CODE = :PRC_CONTEXT_CODE
+        and C.PRC_CONTEXT_TYPE = :PRC_CONTEXT_TYPE
+        and A.APPLICATION_ID = :APPLICATION_ID
+        and A.SEGMENT_ID = S.SEGMENT_ID
+        and S.PRC_CONTEXT_ID = C.PRC_CONTEXT_ID"
+
+
+DOWNLOAD QP_PTE_SEGMENTS
+"select
+        P.PTE_CODE,
+        P.SEGMENT_LEVEL,
+        P.SOURCING_ENABLED,
+        NVL(P.SEEDED_SOURCING_METHOD,USER_SOURCING_METHOD) AS SEEDED_SOURCING_METHOD,
+        P.SOURCING_STATUS,
+        P.LOV_ENABLED,
+        P.LIMITS_ENABLED,
+        to_char(:APPLICATION_ID),
+        decode(P.LAST_UPDATED_BY, 0, 'ORACLE', 1, 'ORACLE', 2,'ORACLE', 'CUSTOM') OWNER ,
+        to_char(P.LAST_UPDATE_DATE,'YYYY/MM/DD')
+        from QP_PTE_SEGMENTS P,
+        QP_SEGMENTS_B S,
+        QP_PRC_CONTEXTS_B C
+        where (:PTE_CODE is null or (:PTE_CODE is not null and P.PTE_CODE like :PTE_CODE))
+        and S.SEGMENT_CODE = :SEGMENT_CODE
+        and C.PRC_CONTEXT_CODE = :PRC_CONTEXT_CODE
+        and C.PRC_CONTEXT_TYPE = :PRC_CONTEXT_TYPE
+        and P.SEGMENT_ID = S.SEGMENT_ID
+        and S.PRC_CONTEXT_ID = C.PRC_CONTEXT_ID"
+
+
+# ------------------------- Upload section -------------------------
+
+UPLOAD QP_PRC_CONTEXTS
+begin
+"begin
+        if (:upload_mode = 'NLS') then
+        qp_loader_dist_pub.qp_prc_contexts_translate_row (
+                        :prc_context_code,
+                        :prc_context_type,
+                        :seeded_flag,
+                        :enabled_flag,
+                        :application_id,
+                        :seeded_prc_context_name,
+                        :seeded_description,
+                :custom_mode,
+                :last_update_date,
+                :owner
+                        );
+        else
+                qp_loader_dist_pub.qp_prc_contexts_load_row (
+                        :prc_context_code,
+                        :prc_context_type,
+                        :seeded_flag,
+                        :enabled_flag,
+                        :application_id,
+                        :seeded_prc_context_name,
+                        :seeded_description,
+                :custom_mode,
+                :last_update_date,
+                :owner
+                        );
+        end if;
+end;"
+
+
+
+UPLOAD QP_SEGMENTS
+begin
+"begin
+        if (:upload_mode = 'NLS') then
+        qp_loader_dist_pub.qp_segments_translate_row (
+                        :segment_code,
+                        :prc_context_code,
+                        :prc_context_type,
+                        :availability_in_basic,
+                        :application_id,
+                        :segment_mapping_column,
+                        :seeded_flag,
+                        :seeded_precedence,
+                        :flex_value_set_name,
+                        :seeded_format_type,
+                        :seeded_segment_name,
+                        :seeded_description,
+                :custom_mode,
+                :last_update_date,
+                :owner
+                        );
+
+        else
+                qp_loader_dist_pub.qp_segments_load_row (
+                        :segment_code,
+                        :prc_context_code,
+                        :prc_context_type,
+                        :availability_in_basic,
+                        :application_id,
+                        :segment_mapping_column,
+                        :seeded_flag,
+                        :seeded_precedence,
+                        :flex_value_set_name,
+                        :seeded_format_type,
+                        :seeded_segment_name,
+                        :seeded_description,
+                        :required_flag,
+                :custom_mode,
+                :last_update_date,
+                :owner
+                        );
+        end if;
+end;"
+
+
+
+UPLOAD QP_ATTRIBUTE_SOURCING
+"begin
+        declare
+        l_user_id                               number := 3;
+                l_prc_context_id                number;
+                l_segment_id                    number;
+                l_attribute_sourcing_s  number;
+        begin
+
+        if (:owner in ('SEED','ORACLE')) then
+                l_user_id := 1;
+        end if;
+
+                begin
+                        select prc_context_id into l_prc_context_id from qp_prc_contexts_b
+                        where prc_context_code = :prc_context_code
+                                and prc_context_type = :prc_context_type;
+                exception
+                        when others then
+                                null;
+                end;
+
+                if l_prc_context_id is not null then
+
+                        begin
+                                select segment_id into l_segment_id from qp_segments_b
+                                        where segment_code = :segment_code
+                                        and prc_context_id = l_prc_context_id;
+
+                                if (:upload_mode = 'NLS') then
+                                update qp_attribute_sourcing
+                                        set
+                                last_updated_by = l_user_id,
+                                last_update_date = nvl(to_date(:last_update_date,'YYYY/MM/DD'),sysdate),
+                                last_update_login = 0
+                                                where request_type_code = :request_type_code
+                                                and attribute_sourcing_level = :attribute_sourcing_level
+                                                and segment_id = l_segment_id
+                                        and userenv('LANG') = (select language_code from fnd_languages
+                                                                                where installed_flag = 'B');
+
+                        else
+                                update qp_attribute_sourcing
+                                        set
+                                                segment_id = l_segment_id,
+                                                request_type_code = :request_type_code,
+                                                attribute_sourcing_level = :attribute_sourcing_level,
+                                                application_id = :application_id,
+                                                user_sourcing_type = decode(seeded_sourcing_type, user_sourcing_type, :seeded_sourcing_type, user_sourcing_type),
+                                                seeded_sourcing_type = :seeded_sourcing_type,
+                                                user_value_string = decode(seeded_value_string, user_value_string, :seeded_value_string, user_value_string),
+                                                seeded_value_string = :seeded_value_string,
+                                                seeded_flag = :seeded_flag,
+                                                enabled_flag = :enabled_flag,
+                                last_updated_by = l_user_id,
+                                last_update_date =  nvl(to_date(:last_update_date,'YYYY/MM/DD'),sysdate),
+                                last_update_login = 0
+                                                where request_type_code = :request_type_code
+                                                and attribute_sourcing_level = :attribute_sourcing_level
+                                                and segment_id = l_segment_id;
+
+                                if sql%notfound then
+
+                                                select qp_attribute_sourcing_s.nextval into l_attribute_sourcing_s from dual;
+                                        insert into qp_attribute_sourcing (
+                                                attribute_sourcing_id,
+                                                segment_id,
+                                                request_type_code,
+                                                attribute_sourcing_level,
+                                                application_id,
+                                                seeded_sourcing_type,
+                                                user_sourcing_type,
+                                                seeded_value_string,
+                                                user_value_string,
+                                                seeded_flag,
+                                                enabled_flag,
+                                                creation_date,
+                                        created_by,
+                                        last_update_date,
+                                        last_update_login,
+                                        last_updated_by
+                                                ) values (
+                                                l_attribute_sourcing_s,
+                                                l_segment_id,
+                                                :request_type_code,
+                                                :attribute_sourcing_level,
+                                                :application_id,
+                                                :seeded_sourcing_type,
+                                                :seeded_sourcing_type,
+                                                :seeded_value_string,
+                                                :seeded_value_string,
+                                                :seeded_flag,
+                                                :enabled_flag,
+                                                sysdate,
+                                                l_user_id,
+                                                 nvl(to_date(:last_update_date,'YYYY/MM/DD'),sysdate),
+                                                0,
+                                                l_user_id
+                                                );
+
+                                end if;
+                                end if;
+
+                        exception
+                                when others then
+                                        null;
+                        end;
+
+                end if;
+        end;
+end;"
+
+
+UPLOAD QP_PTE_SEGMENTS
+"begin
+        declare
+        l_user_id                       number := 3;
+        l_prc_context_id        number;
+        l_segment_id            number;
+                l_pte_segment_s         number;
+        begin
+
+                if (:owner in ('SEED','ORACLE')) then
+                l_user_id := 1;
+        end if;
+
+                begin
+                        select prc_context_id into l_prc_context_id from qp_prc_contexts_b
+                                where prc_context_code = :prc_context_code
+                                and prc_context_type = :prc_context_type;
+                exception
+                        when others then
+                                null;
+                end;
+
+                if l_prc_context_id is not null then
+                        begin
+                                select segment_id into l_segment_id from qp_segments_b
+                                        where segment_code = :segment_code
+                                        and prc_context_id = l_prc_context_id;
+
+                                if (:upload_mode = 'NLS') then
+                                update qp_pte_segments
+                                        set
+                                last_updated_by = l_user_id,
+                                last_update_date =  nvl(to_date(:last_update_date,'YYYY/MM/DD'),sysdate),
+                                last_update_login = 0
+                                                where pte_code  = :pte_code
+                                                and segment_id = l_segment_id
+                                        and userenv('LANG') = (select language_code from fnd_languages
+                                                                                where installed_flag = 'B');
+                        else
+                                update qp_pte_segments
+                                        set
+                                                pte_code = :pte_code,
+                                                segment_level = :segment_level,
+                                                sourcing_enabled = :sourcing_enabled,
+                                                user_sourcing_method = decode(seeded_sourcing_method, user_sourcing_method, :seeded_sourcing_method, user_sourcing_method),
+                                                seeded_sourcing_method = :seeded_sourcing_method,
+                                                sourcing_status = :sourcing_status,
+                                                lov_enabled = :lov_enabled,
+                                                limits_enabled = :limits_enabled,
+                                last_updated_by = l_user_id,
+                                last_update_date =  nvl(to_date(:last_update_date,'YYYY/MM/DD'),sysdate),
+                                last_update_login = 0
+                                                where pte_code = :pte_code
+                                                and segment_id = l_segment_id;
+
+                                if sql%notfound then
+
+                                                select qp_pte_segments_s.nextval into l_pte_segment_s from dual;
+                                        insert into qp_pte_segments (
+                                                segment_pte_id,
+                                                segment_id,
+                                                pte_code,
+                                                segment_level,
+                                                sourcing_enabled,
+                                                seeded_sourcing_method,
+                                                user_sourcing_method,
+                                                sourcing_status,
+                                                lov_enabled,
+                                                limits_enabled,
+                                                creation_date,
+                                        created_by,
+                                        last_update_date,
+                                        last_update_login,
+                                        last_updated_by
+                                                ) values (
+                                                l_pte_segment_s,
+                                                l_segment_id,
+                                                :pte_code,
+                                                :segment_level,
+                                                :sourcing_enabled,
+                                                :seeded_sourcing_method,
+                                                :seeded_sourcing_method,
+                                                :sourcing_status,
+                                                :lov_enabled,
+                                                :limits_enabled,
+                                                sysdate,
+                                                l_user_id,
+                                                 nvl(to_date(:last_update_date,'YYYY/MM/DD'),sysdate),
+                                                0,
+                                                l_user_id
+                                                );
+                                end if;
+                                end if;
+
+                        exception
+                                when others then
+                                        null;
+                        end;
+
+                end if;
+
+    end;
+end;"
+
+
+# ------------------------- End -------------------------

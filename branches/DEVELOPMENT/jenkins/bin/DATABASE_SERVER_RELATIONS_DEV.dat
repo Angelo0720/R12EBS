@@ -1,0 +1,4 @@
+#SID:OSUSER:SERVERNAME:TYPE
+EBS-BJORN5:oracle:bjorn5:DB Server
+EBS-BJORN60:oracle:bjorn60:DB Server
+#EBSDB:oracle:ebsapp.example.com:Application Server

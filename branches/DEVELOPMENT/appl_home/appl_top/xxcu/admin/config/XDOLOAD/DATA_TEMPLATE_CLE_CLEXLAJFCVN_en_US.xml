@@ -1,0 +1,668 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!-- $Header: XLAJELINESRPT.xml 120.19.12010000.5 2016/04/14 05:43:04 krsankar ship $ -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME ~PROD -LOB_CODE XLAJELINESRPT -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME SQLAP -LOB_CODE APXPOINV -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME SQLAP -LOB_CODE APXPOPMT -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME BOM -LOB_CODE CSTJELINESRPT -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME JG -LOB_CODE JGSLAJNLTP -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME JG -LOB_CODE JGSLADJNL -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME JG -LOB_CODE JGSLASDJNL -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME JG -LOB_CODE JGSLAJNLLG -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME CLE -LOB_CODE CLEXLAJFCVN -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME JG -LOB_CODE JGSLAAJNL -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- dbdrv: exec java oracle/apps/xdo/oa/util XDOLoader.class java &phase=dat checkfile:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml UPLOAD -DB_USERNAME &un_apps -DB_PASSWORD &pw_apps -JDBC_CONNECTION &jdbc_db_addr -LOB_TYPE DATA_TEMPLATE -APPS_SHORT_NAME CLA -LOB_CODE CLACNGLVPR -LANGUAGE 00 -XDO_FILE_TYPE XML-DATA-TEMPLATE -FILE_NAME &fullpath:~PROD:patch/115/publisher/defs:XLAJELINESRPT.xml -->
+<!-- GSCC_Category="Xdo Data Definition" -->
+<dataTemplate name="XLAJELNSRPT" defaultPackage="XLA_JELINES_RPT_PKG" version="1.0">
+<properties><property name="debug_mode" value="on" /></properties>
+<properties>
+  <property name="db_fetch_size" value="20" />
+</properties>
+<parameters>
+   <parameter name="P_RESP_APPLICATION_ID" dataType="number"/>
+   <parameter name="P_LEDGER_ID" dataType="number"/>
+   <parameter name="P_COA_ID"    dataType="number"/>
+   <parameter name="P_LEDGER" dataType="character"/>
+
+   <parameter name="P_LEGAL_ENTITY_ID" dataType="number"/>
+   <parameter name="P_LEGAL_ENTITY" dataType="character"/>
+
+   <parameter name="P_TRX_LEGAL_ENTITY_ID" dataType="number"/>
+   <parameter name="P_TRX_LEGAL_ENTITY" dataType="character"/>
+
+   <parameter name="P_PERIOD_FROM" dataType="character"/>
+   <parameter name="P_PERIOD_TO" dataType="character"/>
+
+   <parameter name="P_GL_DATE_FROM" dataType="date"/>
+   <parameter name="P_GL_DATE_TO" dataType="date"/>
+
+   <parameter name="P_CREATION_DATE_FROM" dataType="date"/>
+   <parameter name="P_CREATION_DATE_TO" dataType="date"/>
+   <parameter name="P_TRANSACTION_DATE_FROM" dataType="date"/>
+   <parameter name="P_TRANSACTION_DATE_TO" dataType="date"/>
+
+   <parameter name="P_JE_STATUS_CODE" dataType="character"/>
+   <parameter name="P_JE_STATUS" dataType="character"/>
+
+   <parameter name="P_POSTING_STATUS_CODE" dataType="character"/>
+   <parameter name="P_POSTING_STATUS" dataType="character"/>
+
+   <parameter name="P_JE_SOURCE" dataType="character"/>
+   <parameter name="P_JE_SOURCE_NAME" dataType="character"/>
+
+   <parameter name="P_PROCESS_CATEGORY_ROWID" dataType="character"/>
+   <parameter name="P_PROCESS_CATEGORY" dataType="character"/>
+
+   <parameter name="P_EVENT_CLASS_ROWID" dataType="character"/>
+   <parameter name="P_EVENT_CLASS" dataType="character"/>
+
+   <parameter name="P_ACCT_SEQUENCE_NAME" dataType="character"/>
+   <parameter name="P_ACCT_SEQUENCE_VERSION" dataType="number"/>
+   <parameter name="P_ACCT_SEQUENCE_NUM_FROM" dataType="number"/>
+   <parameter name="P_ACCT_SEQUENCE_NUM_TO" dataType="number"/>
+
+   <parameter name="P_RPT_SEQUENCE_NAME" dataType="character"/>
+   <parameter name="P_RPT_SEQUENCE_VERSION" dataType="number"/>
+   <parameter name="P_RPT_SEQUENCE_NUM_FROM" dataType="number"/>
+   <parameter name="P_RPT_SEQUENCE_NUM_TO" dataType="number"/>
+
+   <parameter name="P_DOC_SEQUENCE_NAME" dataType="character"/>
+   <parameter name="P_DOC_SEQUENCE_NUM_FROM" dataType="number"/>
+   <parameter name="P_DOC_SEQUENCE_NUM_TO" dataType="number"/>
+
+   <parameter name="P_PARTY_TYPE_CODE" dataType="character"/>
+   <parameter name="P_PARTY_TYPE" dataType="character"/>
+
+   <parameter name="P_PARTY_ID" dataType="number"/>
+   <parameter name="P_PARTY_NAME" dataType="character"/>
+
+   <parameter name="P_PARTY_NUMBER_FROM" dataType="number"/>
+   <parameter name="P_PARTY_NUMBER_TO" dataType="number"/>
+
+   <parameter name="P_JE_CATEGORY" dataType="character"/>
+   <parameter name="P_JE_CATEGORY_NAME" dataType="character"/>
+
+   <parameter name="P_BALANCE_TYPE_CODE" dataType="character"/>
+   <parameter name="P_BALANCE_TYPE" dataType="character"/>
+
+   <parameter name="P_BUDGET_VERSION_ID" dataType="number"/>
+   <parameter name="P_BUDGET_NAME" dataType="character"/>
+
+   <parameter name="P_ENCUMBRANCE_TYPE_ID" dataType="number"/>
+   <parameter name="P_ENCUMBRANCE_TYPE" dataType="character"/>
+
+   <parameter name="P_INCLUDE_ZERO_AMOUNT_FLAG" dataType="character"/>
+   <parameter name="P_INCLUDE_ZERO_AMOUNT_LINES" dataType="character"/>
+
+   <parameter name="P_ENTERED_CURRENCY" dataType="character"/>
+
+   <parameter name="P_SIDE_CODE" dataType="character"/>
+   <parameter name="P_SIDE" dataType="character"/>
+
+   <parameter name="P_ACCOUNTED_AMOUNT_FROM" dataType="number"/>
+   <parameter name="P_ACCOUNTED_AMOUNT_TO" dataType="number"/>
+
+   <parameter name="P_BALANCING_SEGMENT_FROM" dataType="character"/>
+   <parameter name="P_BALANCING_SEGMENT_TO" dataType="character"/>
+   <parameter name="P_ACCOUNT_SEGMENT_FROM" dataType="character"/>
+   <parameter name="P_ACCOUNT_SEGMENT_TO" dataType="character"/>
+   <parameter name="P_ACCOUNT_FLEXFIELD_FROM" dataType="character"/>
+   <parameter name="P_ACCOUNT_FLEXFIELD_TO" dataType="character"/>
+
+   <parameter name="P_VALUATION_METHOD" dataType="character"/>
+   <parameter name="P_SECURITY_ID_INT_1" dataType="number"/>
+   <parameter name="P_SECURITY_ID_INT_2" dataType="number"/>
+   <parameter name="P_SECURITY_ID_INT_3" dataType="number"/>
+   <parameter name="P_SECURITY_ID_CHAR_1" dataType="character"/>
+   <parameter name="P_SECURITY_ID_CHAR_2" dataType="character"/>
+   <parameter name="P_SECURITY_ID_CHAR_3" dataType="character"/>
+
+   <parameter name="P_POST_ACCT_PROGRAM_ROWID" dataType="character"/>
+   <parameter name="P_POST_ACCOUNTING_PROGRAM" dataType="character"/>
+
+   <parameter name="P_USER_TRX_ID_COLUMN_1" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_COLUMN_2" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_COLUMN_3" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_COLUMN_4" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_COLUMN_5" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_VALUE_1" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_VALUE_2" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_VALUE_3" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_VALUE_4" dataType="character"/>
+   <parameter name="P_USER_TRX_ID_VALUE_5" dataType="character"/>
+
+   <parameter name="P_GL_BATCH_NAME" dataType="character"/>
+
+   <parameter name="P_INCLUDE_USER_TRX_ID_FLAG" dataType="character"/>
+   <parameter name="P_INCLUDE_USER_TRX_IDENTIFIERS" dataType="character"/>
+
+   <parameter name="P_INCLUDE_TAX_DETAILS_FLAG" dataType="character"/>
+   <parameter name="P_INCLUDE_TAX_DETAILS" dataType="character"/>
+
+   <parameter name="P_INCLUDE_LE_INFO_FLAG" dataType="character"/>
+   <parameter name="P_INCLUDE_LEGAL_ENTITY_INFO" dataType="character"/>
+   <parameter name="P_YTD_CARRIEDFWD_FLAG" dataType="character" />    
+   <parameter name="P_YTD_CARRIEDFWD_INFO" dataType="character" /> 
+
+   <parameter name="P_TRANSACTION_VIEW" dataType="character"/>
+   <parameter name="P_FETCH_FROM_GL" dataType="character"/>
+   <parameter name="P_DOC_SEQ_NAME" dataType="character"/>
+
+   <parameter name="P_CUSTOM_PARAMETER_1" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_2" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_3" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_4" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_5" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_6" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_7" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_8" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_9" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_10" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_11" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_12" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_13" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_14" dataType="character"/>
+   <parameter name="P_CUSTOM_PARAMETER_15" dataType="character"/>
+   <parameter name="P_LEGAL_AUDIT_FLAG" dataType="character"/>
+</parameters>
+<dataQuery>
+   <sqlStatement name="Q_JELINES">
+      <![CDATA[
+          SELECT
+               TABLE1.GL_DATE                                   GL_DATE
+              ,TABLE1.CREATED_BY                                CREATED_BY
+              ,TABLE1.LEGAL_CREATED_ID                          LEGAL_CREATED_ID
+              ,TABLE1.LEGAL_POSTED_ID                           LEGAL_POSTED_ID
+              ,TABLE1.CREATION_DATE                             CREATION_DATE
+              ,TABLE1.LAST_UPDATE_DATE                          LAST_UPDATE_DATE
+              ,TABLE1.GL_TRANSFER_DATE                          GL_TRANSFER_DATE
+              ,TABLE1.REFERENCE_DATE                            REFERENCE_DATE
+              ,TABLE1.COMPLETED_DATE                            COMPLETED_DATE
+              ,TABLE1.EXTERNAL_REFERENCE                        EXTERNAL_REFERENCE
+			  ,TABLE1.REFERENCE_1								REFERENCE_1
+			  ,TABLE1.REFERENCE_4								REFERENCE_4
+              ,TABLE1.PERIOD_YEAR                               PERIOD_YEAR
+              ,TABLE1.PERIOD_YEAR_START_DATE                    PERIOD_YEAR_START_DATE
+              ,TABLE1.PERIOD_YEAR_END_DATE                       PERIOD_YEAR_END_DATE
+              ,TABLE1.PERIOD_NUMBER                             PERIOD_NUMBER
+              ,TABLE1.PERIOD_NAME                               PERIOD_NAME
+              ,TABLE1.PERIOD_START_DATE                         PERIOD_START_DATE
+              ,TABLE1.PERIOD_END_DATE                           PERIOD_END_DATE
+              ,TABLE1.TRANSACTION_NUMBER                        TRANSACTION_NUMBER
+              ,TABLE1.TRANSACTION_DATE                          TRANSACTION_DATE
+              ,TABLE1.ACCOUNTING_SEQUENCE_NAME                  ACCOUNTING_SEQUENCE_NAME
+              ,TABLE1.ACCOUNTING_SEQUENCE_VERSION               ACCOUNTING_SEQUENCE_VERSION
+              ,TABLE1.ACCOUNTING_SEQUENCE_NUMBER                ACCOUNTING_SEQUENCE_NUMBER
+              ,TABLE1.REPORTING_SEQUENCE_NAME                   REPORTING_SEQUENCE_NAME
+              ,TABLE1.REPORTING_SEQUENCE_VERSION                REPORTING_SEQUENCE_VERSION
+              ,TABLE1.REPORTING_SEQUENCE_NUMBER                 REPORTING_SEQUENCE_NUMBER
+              ,TABLE1.DOCUMENT_CATEGORY                         DOCUMENT_CATEGORY
+              ,TABLE1.DOCUMENT_SEQUENCE_NAME                    DOCUMENT_SEQUENCE_NAME
+              ,TABLE1.DOCUMENT_SEQUENCE_NUMBER                  DOCUMENT_SEQUENCE_NUMBER
+              ,TABLE1.APPLICATION_ID                            APPLICATION_ID
+              ,TABLE1.APPLICATION_NAME                          APPLICATION_NAME
+              ,TABLE1.LEDGER_ID                                 LEDGER_ID
+              ,TABLE1.LEDGER_SHORT_NAME                         LEDGER_SHORT_NAME
+              ,TABLE1.LEDGER_DESCRIPTION                        LEDGER_DESCRIPTION
+              ,TABLE1.LEDGER_NAME                               LEDGER_NAME
+              ,TABLE1.LEDGER_CURRENCY                           LEDGER_CURRENCY
+              ,TABLE1.HEADER_ID                                 HEADER_ID
+              ,TABLE1.HEADER_DESCRIPTION                        HEADER_DESCRIPTION
+              ,TABLE1.JOURNAL_ENTRY_STATUS                      JOURNAL_ENTRY_STATUS
+              ,TABLE1.TRANSFER_TO_GL_STATUS                     TRANSFER_TO_GL_STATUS
+              ,TABLE1.BALANCE_TYPE_CODE                         BALANCE_TYPE_CODE
+              ,TABLE1.BALANCE_TYPE                              BALANCE_TYPE
+              ,TABLE1.BUDGET_NAME                               BUDGET_NAME
+              ,TABLE1.ENCUMBRANCE_TYPE                          ENCUMBRANCE_TYPE
+              ,TABLE1.FUND_STATUS                               FUND_STATUS
+              ,TABLE1.JE_CATEGORY_NAME                          JE_CATEGORY_NAME
+              ,TABLE1.JE_SOURCE_NAME                            JE_SOURCE_NAME
+              ,TABLE1.GL_BATCH_NAME                             GL_BATCH_NAME
+			  ,TABLE1.GL_DEFAULT_EFFECTIVE_DATE					GL_DEFAULT_EFFECTIVE_DATE
+              ,TABLE1.GL_BATCH_STATUS                           GL_BATCH_STATUS
+              ,TABLE1.POSTED_DATE                               POSTED_DATE
+              ,TABLE1.GL_JE_NAME                                GL_JE_NAME
+              ,TABLE1.GL_DOC_SEQUENCE_NAME                      GL_DOC_SEQUENCE_NAME
+              ,TABLE1.GL_DOC_SEQUENCE_VALUE                     GL_DOC_SEQUENCE_VALUE
+              ,TABLE1.GL_LINE_NUMBER                            GL_LINE_NUMBER
+              ,TABLE1.EVENT_ID                                  EVENT_ID
+              ,TABLE1.EVENT_DATE                                EVENT_DATE
+              ,TABLE1.EVENT_NUMBER                              EVENT_NUMBER
+              ,TABLE1.EVENT_CLASS_CODE                          EVENT_CLASS_CODE
+              ,TABLE1.EVENT_CLASS_NAME                          EVENT_CLASS_NAME
+              ,TABLE1.EVENT_TYPE_CODE                           EVENT_TYPE_CODE
+              ,TABLE1.EVENT_TYPE_NAME                           EVENT_TYPE_NAME
+              ,TABLE1.LINE_NUMBER                               LINE_NUMBER
+              ,TABLE1.ACCOUNTING_CLASS_CODE                     ACCOUNTING_CLASS_CODE
+              ,TABLE1.ACCOUNTING_CLASS_NAME                     ACCOUNTING_CLASS_NAME
+              ,TABLE1.LINE_DESCRIPTION                          LINE_DESCRIPTION
+              ,TABLE1.CODE_COMBINATION_ID                       CODE_COMBINATION_ID
+              ,TABLE1.ACCOUNTING_CODE_COMBINATION               ACCOUNTING_CODE_COMBINATION
+              ,TABLE1.CODE_COMBINATION_DESCRIPTION              CODE_COMBINATION_DESCRIPTION
+              ,TABLE1.CONTROL_ACCOUNT_FLAG                      CONTROL_ACCOUNT_FLAG
+              ,TABLE1.ENTERED_CURRENCY                          ENTERED_CURRENCY
+              ,TABLE1.CONVERSION_RATE                           CONVERSION_RATE
+              ,TABLE1.CONVERSION_RATE_DATE                      CONVERSION_RATE_DATE
+              ,TABLE1.CONVERSION_RATE_TYPE_CODE                 CONVERSION_RATE_TYPE_CODE
+              ,TABLE1.CONVERSION_RATE_TYPE                      CONVERSION_RATE_TYPE
+              ,TABLE1.ENTERED_DR                                ENTERED_DR
+              ,TABLE1.ENTERED_CR                                ENTERED_CR
+              ,TABLE1.UNROUNDED_ACCOUNTED_DR                    UNROUNDED_ACCOUNTED_DR
+              ,TABLE1.UNROUNDED_ACCOUNTED_CR                    UNROUNDED_ACCOUNTED_CR
+              ,TABLE1.ACCOUNTED_DR                              ACCOUNTED_DR
+              ,TABLE1.ACCOUNTED_CR                              ACCOUNTED_CR
+              ,TABLE1.STATISTICAL_AMOUNT                        STATISTICAL_AMOUNT
+              ,TABLE1.RECONCILIATION_REFERENCE                  RECONCILIATION_REFERENCE
+              ,TABLE1.ATTRIBUTE_CATEGORY                        ATTRIBUTE_CATEGORY
+              ,TABLE1.ATTRIBUTE1                                ATTRIBUTE1
+              ,TABLE1.ATTRIBUTE2                                ATTRIBUTE2
+              ,TABLE1.ATTRIBUTE3                                ATTRIBUTE3
+              ,TABLE1.ATTRIBUTE4                                ATTRIBUTE4
+              ,TABLE1.ATTRIBUTE5                                ATTRIBUTE5
+              ,TABLE1.ATTRIBUTE6                                ATTRIBUTE6
+              ,TABLE1.ATTRIBUTE7                                ATTRIBUTE7
+              ,TABLE1.ATTRIBUTE8                                ATTRIBUTE8
+              ,TABLE1.ATTRIBUTE9                                ATTRIBUTE9
+              ,TABLE1.ATTRIBUTE10                               ATTRIBUTE10
+              ,TABLE1.PARTY_TYPE_CODE                           PARTY_TYPE_CODE
+              ,TABLE1.PARTY_TYPE                                PARTY_TYPE
+               &p_party_details_col
+              ,TABLE1.BALANCING_SEGMENT                         BALANCING_SEGMENT
+              ,TABLE1.NATURAL_ACCOUNT_SEGMENT                   NATURAL_ACCOUNT_SEGMENT
+              ,TABLE1.COST_CENTER_SEGMENT                       COST_CENTER_SEGMENT
+              ,TABLE1.MANAGEMENT_SEGMENT                        MANAGEMENT_SEGMENT
+              ,TABLE1.INTERCOMPANY_SEGMENT                      INTERCOMPANY_SEGMENT
+              ,TABLE1.BALANCING_SEGMENT_DESC                    BALANCING_SEGMENT_DESC
+              ,TABLE1.NATURAL_ACCOUNT_DESC                      NATURAL_ACCOUNT_DESC
+              ,TABLE1.COST_CENTER_DESC                          COST_CENTER_DESC
+              ,TABLE1.MANAGEMENT_SEGMENT_DESC                   MANAGEMENT_SEGMENT_DESC
+              ,TABLE1.INTERCOMPANY_SEGMENT_DESC                 INTERCOMPANY_SEGMENT_DESC
+              ,TABLE1.SEGMENT1                                  SEGMENT1
+              ,TABLE1.SEGMENT2                                  SEGMENT2
+              ,TABLE1.SEGMENT3                                  SEGMENT3
+              ,TABLE1.SEGMENT4                                  SEGMENT4
+              ,TABLE1.SEGMENT5                                  SEGMENT5
+              ,TABLE1.SEGMENT6                                  SEGMENT6
+              ,TABLE1.SEGMENT7                                  SEGMENT7
+              ,TABLE1.SEGMENT8                                  SEGMENT8
+              ,TABLE1.SEGMENT9                                  SEGMENT9
+              ,TABLE1.SEGMENT10                                 SEGMENT10
+              ,TABLE1.SEGMENT11                                 SEGMENT11
+              ,TABLE1.SEGMENT12                                 SEGMENT12
+              ,TABLE1.SEGMENT13                                 SEGMENT13
+              ,TABLE1.SEGMENT14                                 SEGMENT14
+              ,TABLE1.SEGMENT15                                 SEGMENT15
+              ,TABLE1.SEGMENT16                                 SEGMENT16
+              ,TABLE1.SEGMENT17                                 SEGMENT17
+              ,TABLE1.SEGMENT18                                 SEGMENT18
+              ,TABLE1.SEGMENT19                                 SEGMENT19
+              ,TABLE1.SEGMENT20                                 SEGMENT20
+              ,TABLE1.SEGMENT21                                 SEGMENT21
+              ,TABLE1.SEGMENT22                                 SEGMENT22
+              ,TABLE1.SEGMENT23                                 SEGMENT23
+              ,TABLE1.SEGMENT24                                 SEGMENT24
+              ,TABLE1.SEGMENT25                                 SEGMENT25
+              ,TABLE1.SEGMENT26                                 SEGMENT26
+              ,TABLE1.SEGMENT27                                 SEGMENT27
+              ,TABLE1.SEGMENT28                                 SEGMENT28
+              ,TABLE1.SEGMENT29                                 SEGMENT29
+              ,TABLE1.SEGMENT30                                 SEGMENT30
+              ,substr(USERIDS,1,instr(USERIDS,'|',1,1)-1)                                                    USER_TRX_IDENTIFIER_NAME_1
+              ,substr(USERIDS,instr(USERIDS,'|',1,1)+1,(instr(USERIDS,'|',1,2)-1-instr(USERIDS,'|',1,1)))    USER_TRX_IDENTIFIER_VALUE_1
+              ,substr(USERIDS,instr(USERIDS,'|',1,2)+1,(instr(USERIDS,'|',1,3)-1-instr(USERIDS,'|',1,2)))    USER_TRX_IDENTIFIER_NAME_2
+              ,substr(USERIDS,instr(USERIDS,'|',1,3)+1,(instr(USERIDS,'|',1,4)-1-instr(USERIDS,'|',1,3)))    USER_TRX_IDENTIFIER_VALUE_2
+              ,substr(USERIDS,instr(USERIDS,'|',1,4)+1,(instr(USERIDS,'|',1,5)-1-instr(USERIDS,'|',1,4)))    USER_TRX_IDENTIFIER_NAME_3
+              ,substr(USERIDS,instr(USERIDS,'|',1,5)+1,(instr(USERIDS,'|',1,6)-1-instr(USERIDS,'|',1,5)))    USER_TRX_IDENTIFIER_VALUE_3
+              ,substr(USERIDS,instr(USERIDS,'|',1,6)+1,(instr(USERIDS,'|',1,7)-1-instr(USERIDS,'|',1,6)))    USER_TRX_IDENTIFIER_NAME_4
+              ,substr(USERIDS,instr(USERIDS,'|',1,7)+1,(instr(USERIDS,'|',1,8)-1-instr(USERIDS,'|',1,7)))    USER_TRX_IDENTIFIER_VALUE_4
+              ,substr(USERIDS,instr(USERIDS,'|',1,8)+1,(instr(USERIDS,'|',1,9)-1-instr(USERIDS,'|',1,8)))    USER_TRX_IDENTIFIER_NAME_5
+              ,substr(USERIDS,instr(USERIDS,'|',1,9)+1,(instr(USERIDS,'|',1,10)-1-instr(USERIDS,'|',1,9)))   USER_TRX_IDENTIFIER_VALUE_5
+              ,substr(USERIDS,instr(USERIDS,'|',1,10)+1,(instr(USERIDS,'|',1,11)-1-instr(USERIDS,'|',1,10))) USER_TRX_IDENTIFIER_NAME_6
+              ,substr(USERIDS,instr(USERIDS,'|',1,11)+1,(instr(USERIDS,'|',1,12)-1-instr(USERIDS,'|',1,11))) USER_TRX_IDENTIFIER_VALUE_6
+              ,substr(USERIDS,instr(USERIDS,'|',1,12)+1,(instr(USERIDS,'|',1,13)-1-instr(USERIDS,'|',1,12))) USER_TRX_IDENTIFIER_NAME_7
+              ,substr(USERIDS,instr(USERIDS,'|',1,13)+1,(instr(USERIDS,'|',1,14)-1-instr(USERIDS,'|',1,13))) USER_TRX_IDENTIFIER_VALUE_7
+              ,substr(USERIDS,instr(USERIDS,'|',1,14)+1,(instr(USERIDS,'|',1,15)-1-instr(USERIDS,'|',1,14))) USER_TRX_IDENTIFIER_NAME_8
+              ,substr(USERIDS,instr(USERIDS,'|',1,15)+1,(instr(USERIDS,'|',1,16)-1-instr(USERIDS,'|',1,15))) USER_TRX_IDENTIFIER_VALUE_8
+              ,substr(USERIDS,instr(USERIDS,'|',1,16)+1,(instr(USERIDS,'|',1,17)-1-instr(USERIDS,'|',1,16))) USER_TRX_IDENTIFIER_NAME_9
+              ,substr(USERIDS,instr(USERIDS,'|',1,17)+1,(instr(USERIDS,'|',1,18)-1-instr(USERIDS,'|',1,17))) USER_TRX_IDENTIFIER_VALUE_9
+              ,substr(USERIDS,instr(USERIDS,'|',1,18)+1,(instr(USERIDS,'|',1,19)-1-instr(USERIDS,'|',1,18))) USER_TRX_IDENTIFIER_NAME_10
+              ,substr(USERIDS,instr(USERIDS,'|',1,19)+1,(length(USERIDS)-instr(USERIDS,'|',1,19)))           USER_TRX_IDENTIFIER_VALUE_10
+               &p_le_col
+          FROM
+              (&p_sla_col_1
+               &p_gl_columns
+               &p_sla_col_2
+               &p_party_details
+               &p_sla_qualifier_segment
+               &p_sla_col_3
+               &p_trx_identifiers
+               &p_sla_legal_ent_col
+
+               &p_sla_from
+               &p_sla_seg_desc_from
+               &p_gl_view
+               &p_sla_legal_ent_from
+               &p_party_from
+
+               &p_sla_join
+               &p_sla_seg_desc_join
+               &p_other_param_filter
+               &p_gl_join
+               &p_sla_legal_ent_join
+               &p_party_join
+
+               &p_union_all
+
+               &p_gl_col_1
+               &p_gl_party_details
+               &p_gl_qualifier_segment
+               &p_gl_col_2
+               &p_gl_legal_ent_col
+
+               &p_gl_from
+               &p_gl_seg_desc_from
+               &p_gl_legal_ent_from
+
+               &p_gl_where
+               &p_gl_seg_desc_join
+               &p_gl_legal_ent_join) TABLE1
+               &p_le_from
+          WHERE
+               1 = 1
+               &p_trx_id_filter
+               &p_le_join
+      ]]>
+   </sqlStatement>
+
+   <sqlStatement name="Q_TAX">
+      <![CDATA[ &p_tax_query  ]]>
+   </sqlStatement>
+   <sqlStatement name="Q_YTD_CARRIEDFWD">
+      <![CDATA[  &p_ytd_carriedfwd  ]]>
+   </sqlStatement>
+   <sqlStatement name="Q_CREATED">
+      <![CDATA[ &p_created_query  ]]>
+   </sqlStatement>
+   <sqlStatement name="Q_POSTED">
+      <![CDATA[ &p_posted_query  ]]>
+   </sqlStatement>
+   <sqlStatement name="Q_APPROVAL">
+      <![CDATA[ &p_approved_query  ]]>
+   </sqlStatement>
+   <sqlStatement name="Q_COMMERCIAL">
+      <![CDATA[ &p_commercial_query  ]]>
+   </sqlStatement>
+   <sqlStatement name="Q_VAT_REGISTRATION"> 
+         <![CDATA[ &p_vat_registration_query  ]]> 
+</sqlStatement> 
+</dataQuery>
+<dataTrigger name="beforeReport" source="XLA_JELINES_RPT_PKG.beforeReport"/>
+<dataStructure>
+      <group name="JE_LINE" source="Q_JELINES">
+         <element name="GL_DATE"                           value="GL_DATE"/>
+         <element name="CREATED_BY"                        value="CREATED_BY"/>
+         <element name="LEGAL_CREATED_ID" value="LEGAL_CREATED_ID" /> 
+         <element name="LEGAL_POSTED_ID" value="LEGAL_POSTED_ID" /> 
+         <element name="CREATION_DATE"                     value="CREATION_DATE"/>
+         <element name="LAST_UPDATE_DATE"                  value="LAST_UPDATE_DATE"/>
+         <element name="GL_TRANSFER_DATE"                  value="GL_TRANSFER_DATE"/>
+         <element name="REFERENCE_DATE"                    value="REFERENCE_DATE"/>
+         <element name="COMPLETED_DATE"                    value="COMPLETED_DATE"/>
+         <element name="EXTERNAL_REFERENCE"                value="EXTERNAL_REFERENCE"/>
+		 <element name="REFERENCE_1"                	   value="REFERENCE_1"/>
+		 <element name="REFERENCE_4"                	   value="REFERENCE_4"/>
+         <element name="PERIOD_YEAR"                       value="PERIOD_YEAR"/>
+         <element name="PERIOD_YEAR_START_DATE"            value="PERIOD_YEAR_START_DATE"/>
+         <element name="PERIOD_YEAR_END_DATE"              value="PERIOD_YEAR_END_DATE"/>
+         <element name="PERIOD_NUMBER"                     value="PERIOD_NUMBER"/>
+         <element name="PERIOD_NAME"                       value="PERIOD_NAME"/>
+         <element name="PERIOD_START_DATE"                value="PERIOD_START_DATE"/>
+         <element name="PERIOD_END_DATE"                  value="PERIOD_END_DATE"/>
+         <element name="TRANSACTION_NUMBER"                value="TRANSACTION_NUMBER"/>
+         <element name="TRANSACTION_DATE"                  value="TRANSACTION_DATE"/>
+         <element name="ACCOUNTING_SEQUENCE_NAME"          value="ACCOUNTING_SEQUENCE_NAME"/>
+         <element name="ACCOUNTING_SEQUENCE_VERSION"       value="ACCOUNTING_SEQUENCE_VERSION"/>
+         <element name="ACCOUNTING_SEQUENCE_NUMBER"        value="ACCOUNTING_SEQUENCE_NUMBER"/>
+         <element name="REPORTING_SEQUENCE_NAME"           value="REPORTING_SEQUENCE_NAME"/>
+         <element name="REPORTING_SEQUENCE_VERSION"        value="REPORTING_SEQUENCE_VERSION"/>
+         <element name="REPORTING_SEQUENCE_NUMBER"         value="REPORTING_SEQUENCE_NUMBER"/>
+         <element name="DOCUMENT_CATEGORY"                 value="DOCUMENT_CATEGORY"/>
+         <element name="DOCUMENT_SEQUENCE_NAME"            value="DOCUMENT_SEQUENCE_NAME"/>
+         <element name="DOCUMENT_SEQUENCE_NUMBER"          value="DOCUMENT_SEQUENCE_NUMBER"/>
+         <element name="APPLICATION_ID"                    value="APPLICATION_ID"/>
+         <element name="APPLICATION_NAME"                  value="APPLICATION_NAME"/>
+         <element name="LEDGER_ID"                         value="LEDGER_ID"/>
+         <element name="LEDGER_SHORT_NAME"                 value="LEDGER_SHORT_NAME"/>
+         <element name="LEDGER_DESCRIPTION"                value="LEDGER_DESCRIPTION"/>
+         <element name="LEDGER_NAME"                       value="LEDGER_NAME"/>
+         <element name="LEDGER_CURRENCY"                   value="LEDGER_CURRENCY"/>
+         <element name="HEADER_ID"                         value="HEADER_ID"/>
+         <element name="HEADER_DESCRIPTION"                value="HEADER_DESCRIPTION"/>
+         <element name="JOURNAL_ENTRY_STATUS"              value="JOURNAL_ENTRY_STATUS"/>
+         <element name="TRANSFER_TO_GL_STATUS"             value="TRANSFER_TO_GL_STATUS"/>
+         <element name="BALANCE_TYPE_CODE"                 value="BALANCE_TYPE_CODE"/>
+         <element name="BALANCE_TYPE"                      value="BALANCE_TYPE"/>
+         <element name="BUDGET_NAME"                       value="BUDGET_NAME"/>
+         <element name="ENCUMBRANCE_TYPE"                  value="ENCUMBRANCE_TYPE"/>
+         <element name="FUND_STATUS"                       value="FUND_STATUS"/>
+         <element name="JE_CATEGORY_NAME"                  value="JE_CATEGORY_NAME"/>
+         <element name="JE_SOURCE_NAME"                    value="JE_SOURCE_NAME"/>
+         <element name="GL_BATCH_NAME"                     value="GL_BATCH_NAME"/>
+		 <element name="GL_DEFAULT_EFFECTIVE_DATE"         value="GL_DEFAULT_EFFECTIVE_DATE"/>
+         <element name="GL_BATCH_STATUS"                   value="GL_BATCH_STATUS"/>
+         <element name="POSTED_DATE"                       value="POSTED_DATE"/>
+         <element name="GL_JE_NAME"                        value="GL_JE_NAME"/>
+         <element name="GL_DOC_SEQUENCE_NAME"              value="GL_DOC_SEQUENCE_NAME"/>
+         <element name="GL_DOC_SEQUENCE_VALUE"             value="GL_DOC_SEQUENCE_VALUE"/>
+         <element name="GL_LINE_NUMBER"                    value="GL_LINE_NUMBER"/>
+         <element name="EVENT_ID"                          value="EVENT_ID"/>
+         <element name="EVENT_DATE"                        value="EVENT_DATE"/>
+         <element name="EVENT_NUMBER"                      value="EVENT_NUMBER"/>
+         <element name="EVENT_CLASS_CODE"                  value="EVENT_CLASS_CODE"/>
+         <element name="EVENT_CLASS_NAME"                  value="EVENT_CLASS_NAME"/>
+         <element name="EVENT_TYPE_CODE"                   value="EVENT_TYPE_CODE"/>
+         <element name="EVENT_TYPE_NAME"                   value="EVENT_TYPE_NAME"/>
+         <element name="LINE_NUMBER"                       value="LINE_NUMBER"/>
+         <element name="ACCOUNTING_CLASS_CODE"             value="ACCOUNTING_CLASS_CODE"/>
+         <element name="ACCOUNTING_CLASS_NAME"             value="ACCOUNTING_CLASS_NAME"/>
+         <element name="LINE_DESCRIPTION"                  value="LINE_DESCRIPTION"/>
+         <element name="CODE_COMBINATION_ID"               value="CODE_COMBINATION_ID"/>
+         <element name="ACCOUNTING_CODE_COMBINATION "      value="ACCOUNTING_CODE_COMBINATION"/>
+         <element name="CODE_COMBINATION_DESCRIPTION"      value="CODE_COMBINATION_DESCRIPTION"/>
+         <element name="CONTROL_ACCOUNT_FLAG"              value="CONTROL_ACCOUNT_FLAG"/>
+         <element name="ENTERED_CURRENCY"                  value="ENTERED_CURRENCY"/>
+         <element name="CONVERSION_RATE"                   value="CONVERSION_RATE"/>
+         <element name="CONVERSION_RATE_DATE"              value="CONVERSION_RATE_DATE"/>
+         <element name="CONVERSION_RATE_TYPE_CODE"         value="CONVERSION_RATE_TYPE_CODE"/>
+         <element name="CONVERSION_RATE_TYPE"              value="CONVERSION_RATE_TYPE"/>
+         <element name="ENTERED_DR"                        value="ENTERED_DR"/>
+         <element name="ENTERED_CR"                        value="ENTERED_CR"/>
+         <element name="UNROUNDED_ACCOUNTED_DR"            value="UNROUNDED_ACCOUNTED_DR"/>
+         <element name="UNROUNDED_ACCOUNTED_CR"            value="UNROUNDED_ACCOUNTED_CR"/>
+         <element name="ACCOUNTED_DR"                      value="ACCOUNTED_DR"/>
+         <element name="ACCOUNTED_CR"                      value="ACCOUNTED_CR"/>
+         <element name="STATISTICAL_AMOUNT"                value="STATISTICAL_AMOUNT"/>
+         <element name="RECONCILIATION_REFERENCE"          value="RECONCILIATION_REFERENCE"/>
+         <element name="ATTRIBUTE_CATEGORY"                value="ATTRIBUTE_CATEGORY"/>
+         <element name="ATTRIBUTE1"                        value="ATTRIBUTE1"/>
+         <element name="ATTRIBUTE2"                        value="ATTRIBUTE2"/>
+         <element name="ATTRIBUTE3"                        value="ATTRIBUTE3"/>
+         <element name="ATTRIBUTE4"                        value="ATTRIBUTE4"/>
+         <element name="ATTRIBUTE5"                        value="ATTRIBUTE5"/>
+         <element name="ATTRIBUTE6"                        value="ATTRIBUTE6"/>
+         <element name="ATTRIBUTE7"                        value="ATTRIBUTE7"/>
+         <element name="ATTRIBUTE8"                        value="ATTRIBUTE8"/>
+         <element name="ATTRIBUTE9"                        value="ATTRIBUTE9"/>
+         <element name="ATTRIBUTE10"                       value="ATTRIBUTE10"/>
+         <element name="PARTY_TYPE_CODE"                   value="PARTY_TYPE_CODE"/>
+         <element name="PARTY_TYPE"                        value="PARTY_TYPE"/>
+         <element name="PARTY_NUMBER"                      value="PARTY_NUMBER"/>
+         <element name="PARTY_NAME"                        value="PARTY_NAME"/>
+         <element name="PARTY_TYPE_TAXPAYER_ID"            value="PARTY_TYPE_TAXPAYER_ID"/>
+         <element name="PARTY_TAX_REGISTRATION_NUMBER"     value="PARTY_TAX_REGISTRATION_NUMBER"/>
+         <element name="PARTY_SITE_NUMBER"                 value="PARTY_SITE_NUMBER"/>
+         <element name="PARTY_SITE_NAME"                   value="PARTY_SITE_NAME"/>
+         <element name="PARTY_SITE_TAX_RGSTN_NUMBER"       value="PARTY_SITE_TAX_RGSTN_NUMBER"/>
+         <element name="BALANCING_SEGMENT"                 value="BALANCING_SEGMENT"/>
+         <element name="NATURAL_ACCOUNT_SEGMENT"           value="NATURAL_ACCOUNT_SEGMENT"/>
+         <element name="COST_CENTER_SEGMENT"               value="COST_CENTER_SEGMENT"/>
+         <element name="MANAGEMENT_SEGMENT"                value="MANAGEMENT_SEGMENT"/>
+         <element name="INTERCOMPANY_SEGMENT"              value="INTERCOMPANY_SEGMENT"/>
+         <element name="BALANCING_SEGMENT_DESC"            value="BALANCING_SEGMENT_DESC"/>
+         <element name="NATURAL_ACCOUNT_DESC"              value="NATURAL_ACCOUNT_DESC"/>
+         <element name="COST_CENTER_DESC"                  value="COST_CENTER_DESC"/>
+         <element name="MANAGEMENT_SEGMENT_DESC"           value="MANAGEMENT_SEGMENT_DESC"/>
+         <element name="INTERCOMPANY_SEGMENT_DESC"         value="INTERCOMPANY_SEGMENT_DESC"/>
+         <element name="SEGMENT1"                          value="SEGMENT1"/>
+         <element name="SEGMENT2"                          value="SEGMENT2"/>
+         <element name="SEGMENT3"                          value="SEGMENT3"/>
+         <element name="SEGMENT4"                          value="SEGMENT4"/>
+         <element name="SEGMENT5"                          value="SEGMENT5"/>
+         <element name="SEGMENT6"                          value="SEGMENT6"/>
+         <element name="SEGMENT7"                          value="SEGMENT7"/>
+         <element name="SEGMENT8"                          value="SEGMENT8"/>
+         <element name="SEGMENT9"                          value="SEGMENT9"/>
+         <element name="SEGMENT10"                         value="SEGMENT10"/>
+         <element name="SEGMENT11"                         value="SEGMENT11"/>
+         <element name="SEGMENT12"                         value="SEGMENT12"/>
+         <element name="SEGMENT13"                         value="SEGMENT13"/>
+         <element name="SEGMENT14"                         value="SEGMENT14"/>
+         <element name="SEGMENT15"                         value="SEGMENT15"/>
+         <element name="SEGMENT16"                         value="SEGMENT16"/>
+         <element name="SEGMENT17"                         value="SEGMENT17"/>
+         <element name="SEGMENT18"                         value="SEGMENT18"/>
+         <element name="SEGMENT19"                         value="SEGMENT19"/>
+         <element name="SEGMENT20"                         value="SEGMENT20"/>
+         <element name="SEGMENT21"                         value="SEGMENT21"/>
+         <element name="SEGMENT22"                         value="SEGMENT22"/>
+         <element name="SEGMENT23"                         value="SEGMENT23"/>
+         <element name="SEGMENT24"                         value="SEGMENT24"/>
+         <element name="SEGMENT25"                         value="SEGMENT25"/>
+         <element name="SEGMENT26"                         value="SEGMENT26"/>
+         <element name="SEGMENT27"                         value="SEGMENT27"/>
+         <element name="SEGMENT28"                         value="SEGMENT28"/>
+         <element name="SEGMENT29"                         value="SEGMENT29"/>
+         <element name="SEGMENT30"                         value="SEGMENT30"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_1"        value="USER_TRX_IDENTIFIER_NAME_1"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_1"       value="USER_TRX_IDENTIFIER_VALUE_1"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_2"        value="USER_TRX_IDENTIFIER_NAME_2"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_2"       value="USER_TRX_IDENTIFIER_VALUE_2"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_3"        value="USER_TRX_IDENTIFIER_NAME_3"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_3"       value="USER_TRX_IDENTIFIER_VALUE_3"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_4"        value="USER_TRX_IDENTIFIER_NAME_4"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_4"       value="USER_TRX_IDENTIFIER_VALUE_4"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_5"        value="USER_TRX_IDENTIFIER_NAME_5"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_5"       value="USER_TRX_IDENTIFIER_VALUE_5"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_6"        value="USER_TRX_IDENTIFIER_NAME_6"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_6"       value="USER_TRX_IDENTIFIER_VALUE_6"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_7"        value="USER_TRX_IDENTIFIER_NAME_7"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_7"       value="USER_TRX_IDENTIFIER_VALUE_7"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_8"        value="USER_TRX_IDENTIFIER_NAME_8"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_8"       value="USER_TRX_IDENTIFIER_VALUE_8"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_9"        value="USER_TRX_IDENTIFIER_NAME_9"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_9"       value="USER_TRX_IDENTIFIER_VALUE_9"/>
+         <element name="USER_TRX_IDENTIFIER_NAME_10"       value="USER_TRX_IDENTIFIER_NAME_10"/>
+         <element name="USER_TRX_IDENTIFIER_VALUE_10"      value="USER_TRX_IDENTIFIER_VALUE_10"/>
+         <element name="LEGAL_ENTITY_ID"                   value="LEGAL_ENTITY_ID"/>
+         <element name="LEGAL_ENTITY_NAME"                 value="LEGAL_ENTITY_NAME"/>
+         <element name="LEGAL_ENTITY_IDENTIFIER"           value="LEGAL_ENTITY_IDENTIFIER"/>
+         <element name="LE_ADDRESS_LINE_1"                 value="LE_ADDRESS_LINE_1"/>
+         <element name="LE_ADDRESS_LINE_2"                 value="LE_ADDRESS_LINE_2"/>
+         <element name="LE_ADDRESS_LINE_3"                 value="LE_ADDRESS_LINE_3"/>
+         <element name="LE_CITY"                           value="LE_CITY"/>
+         <element name="LE_REGION_1"                       value="LE_REGION_1"/>
+         <element name="LE_REGION_2"                       value="LE_REGION_2"/>
+         <element name="LE_REGION_3"                       value="LE_REGION_3"/>
+         <element name="LE_POSTAL_CODE"                    value="LE_POSTAL_CODE"/>
+         <element name="LE_COUNTRY"                        value="LE_COUNTRY"/>
+         <element name="LE_REGISTRATION_NUMBER"            value="LE_REGISTRATION_NUMBER"/>
+         <element name="LE_REGISTRATION_EFFECTIVE_FROM"    value="LE_REGISTRATION_EFFECTIVE_FROM"/>
+         <element name="LE_BR_DAILY_INSCRIPTION_NUMBER"    value="LE_BR_DAILY_INSCRIPTION_NUMBER"/>
+         <element name="LE_BR_DAILY_INSCRIPTION_DATE"      value="LE_BR_DAILY_INSCRIPTION_DATE"/>
+         <element name="LE_BR_DAILY_ENTITY"                value="LE_BR_DAILY_ENTITY"/>
+         <element name="LE_BR_DAILY_LOCATION"              value="LE_BR_DAILY_LOCATION"/>
+         <element name="LE_BR_DIRECTOR_NUMBER"             value="LE_BR_DIRECTOR_NUMBER"/>
+         <element name="LE_BR_ACCOUNTANT_NUBMER"           value="LE_BR_ACCOUNTANT_NUBMER"/>
+         <element name="LE_BR_ACCOUNTANT_NAME"             value="LE_BR_ACCOUNTANT_NAME"/>
+         <element name="TRX_LEGAL_ENTITY_ID"               value="TRX_LEGAL_ENTITY_ID"/>
+         <element name="TRX_LEGAL_ENTITY_NAME"             value="TRX_LEGAL_ENTITY_NAME"/>
+         <element name="TRX_LE_ADDRESS_LINE_1"             value="TRX_LE_ADDRESS_LINE_1"/>
+         <element name="TRX_LE_ADDRESS_LINE_2"             value="TRX_LE_ADDRESS_LINE_2"/>
+         <element name="TRX_LE_ADDRESS_LINE_3"             value="TRX_LE_ADDRESS_LINE_3"/>
+         <element name="TRX_LE_CITY"                       value="TRX_LE_CITY"/>
+         <element name="TRX_LE_REGION_1"                   value="TRX_LE_REGION_1"/>
+         <element name="TRX_LE_REGION_2"                   value="TRX_LE_REGION_2"/>
+         <element name="TRX_LE_REGION_3"                   value="TRX_LE_REGION_3"/>
+         <element name="TRX_LE_POSTAL_CODE"                value="TRX_LE_POSTAL_CODE"/>
+         <element name="TRX_LE_COUNTRY"                    value="TRX_LE_COUNTRY"/>
+         <element name="TRX_LE_REGISTRATION_NUMBER"        value="TRX_LE_REGISTRATION_NUMBER"/>
+         <element name="TRX_LE_REGST_EFFECTIVE_FROM"       value="TRX_LE_REGST_EFFECTIVE_FROM"/>
+         <group name="TAX" source="Q_TAX">
+            <element name="TAX_REGIME"                    value="TAX_REGIME"/>
+            <element name="TAX"                           value="TAX"/>
+            <element name="TAX_NAME"                      value="TAX_NAME"/>
+            <element name="TAX_STATUS_NAME"               value="TAX_STATUS_NAME"/>
+            <element name="TAX_RATE_NAME"                 value="TAX_RATE_NAME"/>
+            <element name="TAX_RATE"                      value="TAX_RATE"/>
+            <element name="TAX_RATE_TYPE_NAME"            value="TAX_RATE_TYPE_NAME"/>
+            <element name="TAX_DETERMINE_DATE"            value="TAX_DETERMINE_DATE"/>
+            <element name="TAX_POINT_DATE"                value="TAX_POINT_DATE"/>
+            <element name="TAX_TYPE_CODE"                 value="TAX_TYPE_CODE"/>
+            <element name="TAX_TYPE_NAME"                 value="TAX_TYPE_NAME"/>
+            <element name="TAX_CODE"                      value="TAX_CODE"/>
+            <element name="TAX_REGISTRATION_NUMBER"       value="TAX_REGISTRATION_NUMBER"/>
+            <element name="TRX_CURRENCY_CODE"             value="TRX_CURRENCY_CODE"/>
+            <element name="TAX_CURRENCY_CODE"             value="TAX_CURRENCY_CODE"/>
+            <element name="TAX_AMOUNT"                    value="TAX_AMOUNT"/>
+            <element name="TAX_AMOUNT_TAX_CURRENCY"       value="TAX_AMOUNT_TAX_CURRENCY"/>
+            <element name="TAX_AMOUNT_FUNCTIONAL_CURR"    value="TAX_AMOUNT_FUNCTIONAL_CURR"/>
+            <element name="TAXABLE_AMOUNT"                value="TAXABLE_AMOUNT"/>
+            <element name="TAXABLE_AMOUNT_TAX_CURRENCY"   value="TAXABLE_AMOUNT_TAX_CURRENCY"/>
+            <element name="TAXABLE_AMT_FUNC_CURRENCY"     value="TAXABLE_AMT_FUNC_CURRENCY"/>
+            <element name="UNROUNDED_TAXABLE_AMOUNT"      value="UNROUNDED_TAXABLE_AMOUNT"/>
+            <element name="UNROUNDED_TAX_AMOUNT"          value="UNROUNDED_TAX_AMOUNT"/>
+            <element name="RECOVERABLE_TAX_AMOUNT"        value="RECOVERABLE_TAX_AMOUNT"/>
+            <element name="RECOVERABLE_TAX_AMT_TAX_CURR"  value="RECOVERABLE_TAX_AMT_TAX_CURR"/>
+            <element name="RECOVERABLE_TAX_AMT_FUNC_CURR" value="RECOVERABLE_TAX_AMT_FUNC_CURR"/>
+            <element name="NON_RECOVERABLE_TAX_AMOUNT"    value="NON_RECOVERABLE_TAX_AMOUNT"/>
+            <element name="NON_REC_TAX_AMT_TAX_CURR"      value="NON_REC_TAX_AMT_TAX_CURR"/>
+            <element name="NON_REC_TAX_AMT_FUNC_CURR"     value="NON_REC_TAX_AMT_FUNC_CURR"/>
+            <element name="TAX_JURISDICTION_CODE"         value="TAX_JURISDICTION_CODE"/>
+            <element name="SELF_ASSESSED_FLAG"            value="SELF_ASSESSED_FLAG"/>
+            <element name="HQ_ESTB_REG_NUMBER"            value="HQ_ESTB_REG_NUMBER"/>
+            <element name="REC_NREC_TAX_DIST_ID"          value="REC_NREC_TAX_DIST_ID"/>
+            <element name="RECOVERY_TYPE_CODE"            value="RECOVERY_TYPE_CODE"/>
+            <element name="RECOVERY_RATE_CODE"            value="RECOVERY_RATE_CODE"/>
+            <element name="REC_NREC_RATE"                 value="REC_NREC_RATE"/>
+            <element name="RECOVERABLE_FLAG"              value="RECOVERABLE_FLAG"/>
+            <element name="REC_NREC_TAX_AMT"              value="REC_NREC_TAX_AMT"/>
+            <element name="REC_NREC_TAX_AMT_TAX_CURR"     value="REC_NREC_TAX_AMT_TAX_CURR"/>
+            <element name="REC_NREC_TAX_AMT_FUNCL_CURR"   value="REC_NREC_TAX_AMT_FUNCL_CURR"/>
+         </group>
+		 <group name="YTD_CARRIEDFWD" source="Q_YTD_CARRIEDFWD">
+            <element name="YTD_ACTIVITY_DR" value="YTD_ACTIVITY_DR" />
+            <element name="YTD_ACTIVITY_CR" value="YTD_ACTIVITY_CR" />
+         </group>
+         <group name="CREATED" source="Q_CREATED">
+            <element name="LEGAL_CREATED_BY"
+               value="LEGAL_CREATED_BY"/>
+         </group>
+         <group name="POSTED" source="Q_POSTED">
+            <element name="LEGAL_POSTED_BY"
+               value="LEGAL_POSTED_BY"/>
+         </group>
+         <group name="APPROVAL" source="Q_APPROVAL">
+            <element name="LEGAL_APPROVED_BY"
+               value="LEGAL_APPROVED_BY"/>
+         </group>
+     </group>
+     <group name="COMMERCIAL" source="Q_COMMERCIAL">
+            <element name="LEGAL_COMMERCIAL_NUMBER"
+               value="LEGAL_COMMERCIAL_NUMBER"/>
+     </group>
+     <group name="VAT_REGISTRATION" source="Q_VAT_REGISTRATION"> 
+               <element name="LEGAL_VAT_REGISTRATION_NUMBER" 
+                  value="LEGAL_VAT_REGISTRATION_NUMBER"/> 
+     </group> 
+</dataStructure>
+</dataTemplate>
+
