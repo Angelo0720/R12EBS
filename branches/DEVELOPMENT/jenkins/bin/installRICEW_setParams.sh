@@ -16,6 +16,6 @@ if [ -z "${g}" ] || [ -z "${p}" ]
 then
   usage
 else
-  bamboo.GENERATE_MASTER_FILES_ONLY=$g
-  bamboo.PROTOCOL=$p
+  #bamboo.GENERATE_MASTER_FILES_ONLY=$g
+  #bamboo.PROTOCOL=$p
 fi
